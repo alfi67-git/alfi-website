@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://alfi67-git.github.io/blog/</id>
+    <title>Le lab d'Alfi Blog</title>
+    <updated>2025-02-04T19:02:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://alfi67-git.github.io/blog/"/>
+    <subtitle>Le lab d'Alfi Blog</subtitle>
+    <icon>https://alfi67-git.github.io/img/alfi.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[🎓 Projet de Fin d'Étude 3e année | Déploiement automatique de config switch avec Ansible]]></title>
+        <id>https://alfi67-git.github.io/blog/pfe-ansible/</id>
+        <link href="https://alfi67-git.github.io/blog/pfe-ansible/"/>
+        <updated>2025-02-04T19:02:00.000Z</updated>
+        <summary type="html"><![CDATA[Rebelote, pour la validation de ma 3e année d'étude, je dois réaliser un nouveau projet. Cette fois-ci ça sera sur l'automatisation du déploiement de fichier de configuration de switch à l'aide d'Ansible.]]></summary>
+        <content type="html"><![CDATA[<p>Rebelote, pour la validation de ma 3e année d'étude, je dois réaliser un nouveau projet. Cette fois-ci ça sera sur l'automatisation du déploiement de fichier de configuration de switch à l'aide d'Ansible.</p>
+<div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>attention</div><div class="admonitionContent_BuS1"><p>Cet article est encore en cours de rédaction, le projet venant juste de commencé. N'hésitez pas à revenir plus tard pour voir l'évolution du projet.</p></div></div>
+<hr>
+<p>Ce projet doit permettre :</p>
+<ul>
+<li>L'automatisation de déploiement de script de configuration de switch</li>
+<li>La mise à jour automatique des fichiers de conf</li>
+<li>Sauvegarder les fichiers de configuration sur Git</li>
+<li>Permettre le rollback en cas de défaillance</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="technologies-utilisées">Technologies utilisées<a href="https://alfi67-git.github.io/blog/pfe-ansible/#technologies-utilis%C3%A9es" class="hash-link" aria-label="Lien direct vers Technologies utilisées" title="Lien direct vers Technologies utilisées">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-git-cest-quoi-">🔗 Git, c'est quoi ?<a href="https://alfi67-git.github.io/blog/pfe-ansible/#-git-cest-quoi-" class="hash-link" aria-label="Lien direct vers 🔗 Git, c'est quoi ?" title="Lien direct vers 🔗 Git, c'est quoi ?">​</a></h3>
+<p>Git est un <strong>système de gestion de versions</strong> qui permet de <strong>suivre l’évolution des fichiers</strong> dans un projet, principalement du code source.</p>
+<p>Avec Git, tu peux :</p>
+<p>✅ <strong>Sauvegarder et suivre les modifications</strong> d’un projet au fil du temps</p>
+<p>✅ <strong>Revenir à une version précédente</strong> en cas d’erreur</p>
+<p>✅ <strong>Travailler à plusieurs</strong> sans écraser les modifications des autres</p>
+<p>✅ <strong>Expérimenter avec des branches</strong> avant d’intégrer des changements dans le projet principal</p>
+<p>Git est un outil <strong>distribué</strong>, c’est-à-dire que <strong>chaque copie du projet contient tout l’historique des modifications</strong>, sans dépendre d’un serveur central.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="️-ansible-cest-quoi-">⚙️ Ansible, c'est quoi ?<a href="https://alfi67-git.github.io/blog/pfe-ansible/#%EF%B8%8F-ansible-cest-quoi-" class="hash-link" aria-label="Lien direct vers ⚙️ Ansible, c'est quoi ?" title="Lien direct vers ⚙️ Ansible, c'est quoi ?">​</a></h3>
+<p>Ansible est un <strong>outil d'automatisation</strong> qui permet de <strong>gérer des serveurs, installer des logiciels et configurer des systèmes</strong> de manière simple et efficace.</p>
+<p>Avec Ansible, tu peux :</p>
+<p>✅ <strong>Gérer plusieurs machines en même temps</strong> avec un seul script</p>
+<p>✅ <strong>Automatiser les tâches répétitives</strong> comme l’installation de logiciels</p>
+<p>✅ <strong>Éviter les erreurs humaines</strong> grâce à des configurations reproductibles</p>
+<p>✅ <strong>Utiliser un système sans agent</strong>, car Ansible fonctionne via <strong>SSH</strong> (pour Linux) et <strong>WinRM</strong> (pour Windows)</p>
+<p>Ansible est <strong>déclaratif</strong> : tu écris ce que tu veux obtenir (ex: "Apache installé"), et il s’occupe du comment.</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="comment-ça-marche-">Comment ça marche ?<a href="https://alfi67-git.github.io/blog/pfe-ansible/#comment-%C3%A7a-marche-" class="hash-link" aria-label="Lien direct vers Comment ça marche ?" title="Lien direct vers Comment ça marche ?">​</a></h4>
+<ol>
+<li><strong>Machine de contrôle</strong> : Un serveur où Ansible est installé (peut être ton PC ou un serveur dédié).</li>
+<li><strong>Machines cibles</strong> : Serveurs à configurer, accessibles en SSH.</li>
+<li><strong>Inventaire</strong> : Un fichier listant les machines cibles.</li>
+<li><strong>Playbooks</strong> : Scripts YAML définissant les actions à exécuter (installer un package, modifier un fichier, redémarrer un service, etc.).</li>
+</ol>
+<div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> </span><span class="token key atrule" style="color:#00a4db">name</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> Installer Apache</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">hosts</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> webservers</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">become</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> yes  </span><span class="token comment" style="color:#999988;font-style:italic"># Exécuter en tant que root</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">tasks</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> </span><span class="token key atrule" style="color:#00a4db">name</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> Installer le package Apache</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token key atrule" style="color:#00a4db">apt</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token key atrule" style="color:#00a4db">name</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> apache2</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token key atrule" style="color:#00a4db">state</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> present</span><br></span></code></pre></div></div>
+<p>👉 Ici, Ansible va se connecter aux machines du groupe webservers et installer Apache.</p>
+<p>Pour rentrer un peu plus dans les détails, Ansible automatise la gestion des systèmes distants et contrôle leur état souhaité.</p>
+<p><img decoding="async" loading="lazy" alt="control node ansible" src="https://alfi67-git.github.io/assets/images/ansible_inv_start-54b1e82cceb72991edbb9f6df1ff15ac.svg" width="597" height="534" class="img_ev3q"></p>
+<p>Comme montré dans la figure précédente, la plupart des environnements Ansible comportent trois composants principaux :</p>
+<p><strong>Nœud de contrôle :</strong></p>
+<p>Un système sur lequel Ansible est installé. Vous exécutez les commandes Ansible telles que <code>ansible</code> ou <code>ansible-inventory</code> sur un nœud de contrôle.</p>
+<p><strong>Inventaire :</strong></p>
+<p>Une liste de nœuds gérés qui sont organisés de manière logique. Vous créez un inventaire sur le nœud de contrôle pour décrire les déploiements d'hôtes à Ansible.</p>
+<p><strong>Nœud géré :</strong></p>
+<p>Un système distant, ou hôte, qu'Ansible contrôle.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="premiers-test">Premiers test<a href="https://alfi67-git.github.io/blog/pfe-ansible/#premiers-test" class="hash-link" aria-label="Lien direct vers Premiers test" title="Lien direct vers Premiers test">​</a></h2>
+<p>Etant donnée que c'est la première fois que j'utilise Ansible, il faut bien que je puisse me faire la main dessus et comprendre comment ça fonctionne. Pour ce faire j'ai donc créer un petit lab de VMs sur VMware Workstation.</p>
+<p>Pour réaliser ce lab j'ai donc poser la question à ChatGPT de m'en proposer une et voici sa réponse :</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="-configuration-minimale-3-vms">🖥 Configuration minimale (3 VMs)<a href="https://alfi67-git.github.io/blog/pfe-ansible/#-configuration-minimale-3-vms" class="hash-link" aria-label="Lien direct vers 🖥 Configuration minimale (3 VMs)" title="Lien direct vers 🖥 Configuration minimale (3 VMs)">​</a></h4>
+<ol>
+<li><strong>1 VM de contrôle</strong> (où Ansible est installé)</li>
+<li><strong>2 VMs cibles</strong> (serveurs gérés par Ansible)</li>
+</ol>
+<p>👉 <strong>Pourquoi ce setup ?</strong></p>
+<ul>
+<li>1 machine pour exécuter Ansible</li>
+<li>2 machines cibles pour tester l'exécution sur plusieurs serveurs</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="-configuration-recommandée-4-vms">🏗 Configuration recommandée (4+ VMs)<a href="https://alfi67-git.github.io/blog/pfe-ansible/#-configuration-recommand%C3%A9e-4-vms" class="hash-link" aria-label="Lien direct vers 🏗 Configuration recommandée (4+ VMs)" title="Lien direct vers 🏗 Configuration recommandée (4+ VMs)">​</a></h4>
+<p>Si tu veux tester différents rôles et services, voici une config plus avancée :</p>
+<ol>
+<li><strong>1 VM "Control Node"</strong> (Fedora/Debian/Ubuntu) → Contient Ansible</li>
+<li><strong>1 VM "Web Server"</strong> (Ubuntu/Debian/CentOS) → Pour tester le déploiement d’Apache/Nginx</li>
+<li><strong>1 VM "Database Server"</strong> (Ubuntu/Debian/CentOS) → Pour tester l’installation de MySQL/PostgreSQL</li>
+<li><strong>1 VM "Client"</strong> (Fedora/Debian) → Pour tester la connexion aux services</li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-le-lab-">📌 Le lab :<a href="https://alfi67-git.github.io/blog/pfe-ansible/#-le-lab-" class="hash-link" aria-label="Lien direct vers 📌 Le lab :" title="Lien direct vers 📌 Le lab :">​</a></h3>
+<p>Voici donc l'état du lab actuellement :</p>
+<ol>
+<li><strong>1 VM de contrôle</strong> (OS Fedora Server où Ansible est installé)</li>
+<li><strong>2 VMs cibles</strong> (OS Debian serveurs gérés par Ansible)</li>
+</ol>
+<p>👉 <strong>Pourquoi ce setup ?</strong></p>
+<ul>
+<li>1 machine pour exécuter Ansible</li>
+<li>2 machines cibles pour tester l'exécution sur plusieurs serveurs</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-ip-du-lab-">🌐 IP du lab :<a href="https://alfi67-git.github.io/blog/pfe-ansible/#-ip-du-lab-" class="hash-link" aria-label="Lien direct vers 🌐 IP du lab :" title="Lien direct vers 🌐 IP du lab :">​</a></h3>
+<p>✅ <strong>vm-fedo-ansible →</strong> 192.168.2.134</p>
+<p>✅ <strong>vm-deb-ansible   →</strong> 192.168.2.135</p>
+<p>✅ <strong>vm-deb-ansible2 →</strong> 192.168.2.136</p>
+<p><img decoding="async" loading="lazy" alt="15629187859594_Capture d’e´cran 2019-07-12 a` 10.05.31.png" src="https://alfi67-git.github.io/assets/images/15629187859594_Capture_decran_2019-07-12_a_10.05.31-43fbfe92ac4344be4e74ae5e0a8dba78.png" width="1440" height="808" class="img_ev3q"></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="-infos-sur-ansible-">💡 Infos sur Ansible :<a href="https://alfi67-git.github.io/blog/pfe-ansible/#-infos-sur-ansible-" class="hash-link" aria-label="Lien direct vers 💡 Infos sur Ansible :" title="Lien direct vers 💡 Infos sur Ansible :">​</a></h3>
+<p><img decoding="async" loading="lazy" alt="15629296318823_Plan de travail 12@2x.png" src="https://alfi67-git.github.io/assets/images/15629296318823_Plan_de_travail_122x-1f277e178ea78c36aec89ed89c3a331b.png" width="2001" height="326" class="img_ev3q"></p>
+<blockquote>
+<p>Un <strong>node manager</strong>, ou <em><strong>control node</strong></em>,  est un poste qui contrôle les nodes grâce à sa connexion SSH. Il&nbsp;dispose d'une version Ansible d’installé pour leur pousser les tâches d’automatisation grâce aux commandes&nbsp;<code>ansible</code>&nbsp;et&nbsp;<code>ansible-playbook</code>. Ça peut être n’importe quelle machine Linux, mais pas Windows.</p>
+</blockquote>
+<p><img decoding="async" loading="lazy" alt="15629302942908_Plan de travail 12 copie 4@2x.png" src="https://alfi67-git.github.io/assets/images/15629302942908_Plan_de_travail_12_copie_42x-c95da2e47586c99ec68875bbb7c5ec42.png" width="2001" height="326" class="img_ev3q"></p>
+<blockquote>
+<p>Un <strong>node</strong> (ou <em><strong>managed node</strong></em>, ou <em><strong>host</strong></em>) est un poste connecté au node manager en SSH, et sur lequel Ansible viendra pousser les tâches d’automatisation. Ansible n’est pas installé sur les nodes.</p>
+</blockquote>]]></content>
+        <author>
+            <name>Alexandre FIDALGO</name>
+        </author>
+        <category label="CESI" term="CESI"/>
+        <category label="PFE" term="PFE"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🛠️ Installer et monitorer un serveur minecraft avec Crafty Controller]]></title>
+        <id>https://alfi67-git.github.io/blog/crafty/</id>
+        <link href="https://alfi67-git.github.io/blog/crafty/"/>
+        <updated>2024-11-19T15:05:12.000Z</updated>
+        <summary type="html"><![CDATA[Aujourd'hui, on va voir comment installer un serveur Minecraft et le monitorer avec une interface web nommé Crafty Controller le tout fonctionnant sous Docker installé sur un serveur Debian.]]></summary>
+        <content type="html"><![CDATA[<p>Aujourd'hui, on va voir comment installer un serveur Minecraft et le monitorer avec une interface web nommé <em>Crafty Controller</em> le tout fonctionnant sous Docker installé sur un serveur Debian.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="les-outils-utilisés">Les outils utilisés<a href="https://alfi67-git.github.io/blog/crafty/#les-outils-utilis%C3%A9s" class="hash-link" aria-label="Lien direct vers Les outils utilisés" title="Lien direct vers Les outils utilisés">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="cest-quoi-docker-">C'est quoi <a href="https://docker.com/" target="_blank" rel="noopener noreferrer">Docker</a> ?<a href="https://alfi67-git.github.io/blog/crafty/#cest-quoi-docker-" class="hash-link" aria-label="Lien direct vers cest-quoi-docker-" title="Lien direct vers cest-quoi-docker-">​</a></h3>
+<p>Pour faire ultra simple, docker est une application de virtualisation.
+De la même façon que l'on peut virtualiser des Systèmes d'Exploitations, avec VirtualBox, VMware, etc, avec Docker on peut virtualiser des applications.
+Utiliser Docker à plusieurs avantages pour ce projet:</p>
+<ul>
+<li>Se déployer rapidement</li>
+<li>Isoler l'environnements</li>
+<li>La portabilité</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="cest-quoi-crafty-">C'est quoi <a href="https://craftycontrol.com/" target="_blank" rel="noopener noreferrer">Crafty</a> ?<a href="https://alfi67-git.github.io/blog/crafty/#cest-quoi-crafty-" class="hash-link" aria-label="Lien direct vers cest-quoi-crafty-" title="Lien direct vers cest-quoi-crafty-">​</a></h3>
+<p>Crafty Controller, ou comme je l'appelle plus simplement <em>Crafty</em>, est un projet gratuit et open-source, qui permet, à l'aide d'une interface web, d'administrer un ou plusieurs serveur Minecraft.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="installation">Installation<a href="https://alfi67-git.github.io/blog/crafty/#installation" class="hash-link" aria-label="Lien direct vers Installation" title="Lien direct vers Installation">​</a></h2>
+<p>C'est possible d'installer Crafty de différentes façons. Soit directement sur le système (mais c'est chiant et à gérer c'est un bordel, je le sais d'expérience) ou avec Docker et docker compose (qui pour le coup est beaucoup plus simple).</p>
+<p>Pour son installation avec Docker, il y a différentes façon de l'installer. Que ce soit avec le CLI, avec le hub ou encore avec Docker Compose.</p>
+<p>Vu que l'équipe de Crafty proposent un fichier docker-compose tout prêt, on va utiliser ça.</p>
+<p>Voici donc le fichier de configuration de base pour Crafty.</p>
+<div class="language-yml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token key atrule" style="color:#00a4db">version</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">'3'</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">services</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">crafty</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">container_name</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> crafty_container</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">image</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> registry.gitlab.com/crafty</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">controller/crafty</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">4</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain">latest</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">restart</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> always</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">environment</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> TZ=Etc/UTC</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">ports</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"8443:8443"</span><span class="token plain"> </span><span class="token comment" style="color:#999988;font-style:italic"># HTTPS</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"8123:8123"</span><span class="token plain"> </span><span class="token comment" style="color:#999988;font-style:italic"># DYNMAP</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"19132:19132/udp"</span><span class="token plain"> </span><span class="token comment" style="color:#999988;font-style:italic"># BEDROCK</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"25500-25600:25500-25600"</span><span class="token plain"> </span><span class="token comment" style="color:#999988;font-style:italic"># MC SERV PORT RANGE</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">volumes</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> ./docker/backups</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain">/crafty/backups</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> ./docker/logs</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain">/crafty/logs</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> ./docker/servers</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain">/crafty/servers</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> ./docker/config</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain">/crafty/app/config</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> ./docker/import</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain">/crafty/import</span><br></span></code></pre></div></div>
+<p>On va donc créer un fichier du nom de <code>docker-compose.yml</code> et coller les recommendation des devs dans le fichier.</p>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p>Bien penser à changer la time zone en : Etc/Europe.
+J'ai déjà eu des soucis d'horloge en ayant oublié de changer ce paramètre.</p></div></div>
+<p>On va globalement pas trop toucher à ce fichier, qui est bien dans l'ensemble. On peut donc lancer docker avec la commande: <code>docker-compose up -d &amp;&amp; docker-compose logs -f</code>.</p>
+<p>Vu que crafty est bien fait, l'installation va se faire toute seule et prend normalement que quelques secondes</p>
+<p>On peut d'ailleurs voir sur la capture suivante l'installation s'effectuer:
+<img decoding="async" loading="lazy" alt="installation de crafty à l&amp;#39;aide de docker" src="https://alfi67-git.github.io/assets/images/docker1-f25fc15ce766e66f39a21ce805ce6ae6.png" width="826" height="514" class="img_ev3q"></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="interface-de-crafty">Interface de Crafty<a href="https://alfi67-git.github.io/blog/crafty/#interface-de-crafty" class="hash-link" aria-label="Lien direct vers Interface de Crafty" title="Lien direct vers Interface de Crafty">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="première-connexion">Première connexion<a href="https://alfi67-git.github.io/blog/crafty/#premi%C3%A8re-connexion" class="hash-link" aria-label="Lien direct vers Première connexion" title="Lien direct vers Première connexion">​</a></h3>
+<p>Maintenant que notre installation s'est bien déroulée, il est temps d'aller jeter un oeil au niveau de l'interface web.
+Crafty est accessible via <code>localhost</code>, <code>127.0.0.1</code> ou l'<code>ip de la machine</code>. Mais toujours avec <strong>https://</strong> devant.
+Pour cet exemple j'y accède de avec la manière <code>https://127.0.0.1:8443/</code>, mais en temps normal, je rentre l'adresse ip du serveur où est hébergé crafty.</p>
+<p>On se retrouve donc face à set interface:
+<img decoding="async" loading="lazy" alt="page de connexion à crafty" src="https://alfi67-git.github.io/assets/images/crafty_ui-0b366bd7703fdb45881e79d14de53243.png" width="957" height="813" class="img_ev3q"></p>
+<p>Pour une première connexion, il faut utiliser le username <code>admin</code> et le <code>mot de passe</code> générer dans un fichier situer ici : <code>app/config/default-creds.txt</code> de façon général. Mais bon, vu que je trouvais pas j'ai fini par lancé une recherche afin de trouver le fichier, qui finalement était pas si loin que ça:
+<img decoding="async" loading="lazy" alt="mot de passe de connexion session admin" src="https://alfi67-git.github.io/assets/images/passwd-2d3d94cdb30d97e212c71c8dfdd2c189.png" width="1049" height="192" class="img_ev3q"></p>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p>À chaque fois que j'ai essayé d'accèder au compte admin pour une première connexion, j'ai TOUJOURS un message d'erreur où la connexion est impossible. Je sais pas si c'est moi qui suis maudit ou si c'est buggé 😮‍💨.</p></div></div>
+<p>Cette fois-ci j'avais un petit peu d'espoir que ça fonctionne, mais comme à chaque installation, j'ai une erreur <code>Incorrect username or password</code>. Donc on va utiliser la méthode <code>Forgot Password</code> qui va activer un compte temporaire qui nous pemettra de définir le mot de passe de notre choix pour le compte <code>admin</code>.</p>
+<p>Lorsque l'on clic sur le boutton <code>Forgot Password</code>, le compte <code>Lockout</code> s'active pendant 1H avec un mot de passe temporaire, trouvable dans les logs du container:
+<code>docker logs {id container}</code>
+<img decoding="async" loading="lazy" alt="login et password du compte auti-lockout" src="https://alfi67-git.github.io/assets/images/lockout-ce6159ea02b5c3f40c417b8f4578a1e5.png" width="877" height="214" class="img_ev3q"></p>
+<p>Une fois ces identifiants rentré, cela nous donne donc accès à l'interface permettant de modifier le mot de passe admin.</p>
+<p>Voici à quoi elle ressemble:
+<img decoding="async" loading="lazy" alt="page de gestion auti-lockout" src="https://alfi67-git.github.io/assets/images/ath_lockout-9757686d883665488146f3fe2877c51b.png" width="946" height="914" class="img_ev3q"></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="dashboard">Dashboard<a href="https://alfi67-git.github.io/blog/crafty/#dashboard" class="hash-link" aria-label="Lien direct vers Dashboard" title="Lien direct vers Dashboard">​</a></h3>
+<p>Maintenant qu'on est connecté, nous voici face à la page d'accueil. C'est le dashboard.
+D'ici on peut accéder aux paramètres et créer des serveurs.
+Si des serveurs sont crées, ils s'afficheront ici.</p>
+<p><img decoding="async" loading="lazy" alt="dashboard crafty" src="https://alfi67-git.github.io/assets/images/interface_crafty-354f5ee81469d6ac19612bd63178b4aa.png" width="1920" height="1076" class="img_ev3q"></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="création-dun-serveur">Création d'un serveur<a href="https://alfi67-git.github.io/blog/crafty/#cr%C3%A9ation-dun-serveur" class="hash-link" aria-label="Lien direct vers Création d'un serveur" title="Lien direct vers Création d'un serveur">​</a></h3>
+<p>Avec Crafty, il est possible de choisir entre un serveur Minecraft Java ou Bedrock.
+Choix à définir en sélectionnant Minecraft-Bedrock ou Minecraft-Java au dessus du panneau <strong>Create New Server</strong>.</p>
+<hr>
+<p>Voici l'outil qui permet de créer des serveurs. Il permet de sélectionner plusieurs options personnalisable pour notre serveur.
+<img decoding="async" loading="lazy" alt="créer un nouveau serveur" src="https://alfi67-git.github.io/assets/images/server-builder2-b5d6f36fe846c69863345c0163227763.png" width="805" height="789" class="img_ev3q"></p>
+<ol>
+<li><strong>Server Type</strong>: Permet de choisir entre soit la configuration du serveur minecraft ou d'un serveur proxie.</li>
+<li><strong>Server Select</strong>: au fil des années, plusieurs type de serveur se sont créer, <em>vanilla</em>, <em>paper</em>, <em>fabric</em>, <em>folia</em>, <em>forge-installer</em> et <em>purpur</em>. (Paper est recommandé si l'installation de plugins est souhaité)</li>
+<li><strong>Server Version</strong>: sélectionne la version du jeu sur lequel le serveur doit tourner.</li>
+<li><strong>Server Name</strong>: Nom que vous souhaitez donner au serveur (obvious celui-ci☝🤓).</li>
+<li><strong>Minimum/Maximum Memory, Server Port</strong>: Détermine la minimum et le maximum de ram que vous souhaitez allouer au serveur. Vivement recommandé de mettre au minimum 2Go et 6Go au max pour une <strong>bonne</strong> utilisation entre ami.</li>
+</ol>
+<div class="theme-admonition theme-admonition-warning admonition_xJq3 alert alert--warning"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></span>attention</div><div class="admonitionContent_BuS1"><p>Bien penser à changer le port, des bots qui scannent les ports Minecraft sont fréquent. Exemple: Remplacer <strong>25565</strong> par <strong>25570</strong>.</p></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="démarrage-du-serveur">Démarrage du serveur<a href="https://alfi67-git.github.io/blog/crafty/#d%C3%A9marrage-du-serveur" class="hash-link" aria-label="Lien direct vers Démarrage du serveur" title="Lien direct vers Démarrage du serveur">​</a></h3>
+<p>On peut maintenant démarrer le serveur en cliquant sur le bouton '<strong>Start</strong>' ou depuis le dashboard en appuyant sur le petit triangle.
+Si c'est le premier démarrage du serveur, il va demander d'accepter les <a href="https://www.minecraft.net/fr-fr/eula" target="_blank" rel="noopener noreferrer">EULA de Minecraft</a>.</p>
+<p><img decoding="async" loading="lazy" alt="EULA Minecraft" src="https://alfi67-git.github.io/assets/images/minecraft-eula-4dea04ebacd635114e15e5dbd1349dc7.png" width="509" height="243" class="img_ev3q"></p>
+<p>Une fois les EULA acceptée on peut une nouvelle fois lancer le serveur et s'assurer de bien avoir ouvert le port défini plus haut qui est le port de connexion Minecraft et qui permettra à vos amis de se connecter à votre serveur.</p>
+<hr>
+<p>Et voilà, vous savez à présent installer Crafty Controller avec Docker et lancer votre premier serveur Minecraft !</p>]]></content>
+        <author>
+            <name>Alexandre FIDALGO</name>
+        </author>
+        <category label="Docker" term="Docker"/>
+        <category label="Minecraft" term="Minecraft"/>
+        <category label="Projets personnels" term="Projets personnels"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🎓 Projet de Fin d'Étude | Utilisation de Postman]]></title>
+        <id>https://alfi67-git.github.io/blog/pfe-premier-pas/</id>
+        <link href="https://alfi67-git.github.io/blog/pfe-premier-pas/"/>
+        <updated>2024-05-24T23:38:00.000Z</updated>
+        <summary type="html"><![CDATA[Dans le cadre de la validation de mon cursus d'étude, je dois réaliser un projet de fin d'études.]]></summary>
+        <content type="html"><![CDATA[<p>Dans le cadre de la validation de mon cursus d'étude, je dois réaliser un projet de fin d'études.
+Projet qui doit être réalisé au sein de l'entreprise où je me trouve.</p>
+<p>Le projet consiste à créer une application Android qui permet, via l'API de GLPI, de mettre à jour la base de données.</p>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p>Ce projet est abandonné et ne s'est jamais fini, il n'y aura donc pas de suite</p></div></div>
+<p>L'application devra :</p>
+<ul>
+<li>Être simple d'utilisation</li>
+<li>Permettre d'affecter un équipement un utilisateur</li>
+<li>Permettre de changer l'affectation d'un équipement à un utilisateur</li>
+<li>Changer le statut d'un équipement</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="technologies-utilisées">Technologies utilisées<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#technologies-utilis%C3%A9es" class="hash-link" aria-label="Lien direct vers Technologies utilisées" title="Lien direct vers Technologies utilisées">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="flutter">Flutter<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#flutter" class="hash-link" aria-label="Lien direct vers Flutter" title="Lien direct vers Flutter">​</a></h3>
+<p>Flutter, c'est un outil gratuit de Google qui te permet de créer des applis pour mobile, web et ordinateur avec un seul code. En gros, tu écris ton code une fois et tu peux le faire tourner partout. Il utilise un langage appelé Dart, mais l'important, c'est que tu peux faire de super belles interfaces rapidement et facilement. C'est super pratique pour avoir une appli qui marche bien et qui a le même look sur toutes les plateformes.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="postman">Postman<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#postman" class="hash-link" aria-label="Lien direct vers Postman" title="Lien direct vers Postman">​</a></h3>
+<p>Postman, c'est un outil super pratique pour tester des API. Tu peux envoyer des requêtes HTTP et voir les réponses, sans avoir à écrire du code compliqué. En gros, c'est comme un couteau suisse pour les développeurs qui bossent avec des API : tu peux tester, déboguer, et documenter tes endpoints super facilement. C'est super utile pour vérifier que tout fonctionne bien avant de mettre en ligne ton application.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="glpi-dans-un-docker">GLPI (dans un Docker)<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#glpi-dans-un-docker" class="hash-link" aria-label="Lien direct vers GLPI (dans un Docker)" title="Lien direct vers GLPI (dans un Docker)">​</a></h3>
+<p>GLPI, c'est un outil open-source pour gérer tout ce qui concerne l'informatique dans une entreprise. Il t'aide à suivre les équipements, gérer les tickets de support, et organiser les tâches de maintenance. En gros, c'est comme un tableau de bord pour tout ce qui touche à l'IT : tu sais toujours ce qui se passe, où sont tes ressources, et quelles sont les priorités. Super utile pour garder tout en ordre et résoudre les problèmes rapidement.</p>
+<p>N'ayant pas eu l'autorisation de ma hiérarchie pour accéder à l'API du GLPI de l'entreprise, j'en ai donc installé un en local grâce à Docker sur mon pc personnel.</p>
+<hr>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="premiers-pas">Premiers pas<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#premiers-pas" class="hash-link" aria-label="Lien direct vers Premiers pas" title="Lien direct vers Premiers pas">​</a></h2>
+<p>Dans cette première partie, le but est de prendre en main <em>Postman</em> que j'utiliserai durant ce projet, comme expliquer plus haut, pour faire des appels à l'API de GLPI.</p>
+<p>Comme c'est la première fois que j'utilise Postman, je ne comprends pas grand-chose, raison pour laquelle j'ai une petite ToDo list.</p>
+<p>Mon but, c'est donc :</p>
+<ul>
+<li>D'activer l'API</li>
+<li>Faire mes premiers call avec Postman sur l'API de GLPI</li>
+</ul>
+<p>C'est pas beaucoup, mais ça a été un sacré bordel, surtout au niveau de Postman.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="activer-lapi-de-glpi">Activer l'API de GLPI<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#activer-lapi-de-glpi" class="hash-link" aria-label="Lien direct vers Activer l'API de GLPI" title="Lien direct vers Activer l'API de GLPI">​</a></h2>
+<p>Rien de bien compliqué. Si vous avez un full accès à votre GLPI, rendez vous dans <em>Configuration (1)</em> &gt; <em>Général (2)</em> &gt; <em>API (3)</em> &gt; <em>Activer l'API Rest (4)</em> &gt; <em>Activer la connexion avec identifiants (5)</em> et enfin cliquez sur <em>Sauvegarder</em></p>
+<p><img decoding="async" loading="lazy" alt="activer l&amp;#39;api" src="https://alfi67-git.github.io/assets/images/activation_api2-c7798327cab2dc2797eeae5615aa0e03.png" width="1488" height="589" class="img_ev3q"></p>
+<p>Voilà, donc maintenant l'API est activé, il faut ensuite rajouter un nouveau client de l'API, c'est le bouton qui se trouve juste en dessous.</p>
+<p>Donner un nom (1), ensuite définir la plage d'adresse IP qui sera utiliser par l'API, ici, c'est le range du Docker (2) et pour finir, faut s'assurer que la case "<em>Regénérer</em>" est cochée, ce qui permettra d'avoir un jeton, on en aura besoin pour plus tard.
+<img decoding="async" loading="lazy" alt="activer l&amp;#39;api" src="https://alfi67-git.github.io/assets/images/client_api-3f95d27bd1fc328a520ad2ffc63fc80a.png" width="1670" height="634" class="img_ev3q"></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="la-documentation">La documentation<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#la-documentation" class="hash-link" aria-label="Lien direct vers La documentation" title="Lien direct vers La documentation">​</a></h3>
+<p>Maintenant que le client est créé et que l'API est activée, il est temps de s'y rendre.
+De retour sur la section consacrée à l'API, il y a une ligne appelée <em>URL de l'API</em> avec un lien vers celle-ci, qui est (dans mon cas): <code>http://localhost:8080/apirest.php/</code></p>
+<p>En se rendant sur cette page, on a donc accès à la documentation complète de l'API, ce qui va être très utile par la suite avec Postman.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="utilisation-de-postman">Utilisation de Postman<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#utilisation-de-postman" class="hash-link" aria-label="Lien direct vers Utilisation de Postman" title="Lien direct vers Utilisation de Postman">​</a></h2>
+<p>Postman, ça ressemble à ça :
+<img decoding="async" loading="lazy" alt="postman" src="https://alfi67-git.github.io/assets/images/postman-14e6918edf5cb782fdb91cc34b0e71af.png" width="961" height="685" class="img_ev3q"></p>
+<p>En rouge, c'est les requêtes HTTP. Celles qui nous intéressent sont :</p>
+<ul>
+<li><strong>GET</strong> qui a pour but d'aller chercher une page ou de la donnée.</li>
+<li><strong>POST</strong> a pour but d'envoyer de l'information contenue dans le <em><strong>body</strong></em> de la requête, vers le serveur.</li>
+<li><strong>PUT</strong> va écraser une ressource avec de la nouvelle donnée, là aussi définie dans le <em><strong>body</strong></em>.</li>
+<li><strong>DELETE</strong> je pense pas avoir besoin d'expliquer.</li>
+</ul>
+<p>En jaune, c'est l'URL qui comporte toutes les <em>query</em> qui sont des données au format <code>clé=valeur</code> après un <code>?</code>.</p>
+<p>Par exemple : <code>leboncoin.fr/recherche/?category=9&amp;locations=r_12</code></p>
+<p>Les champs <em>category</em> et <em>location</em> sont des <em>query</em>.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="premier-call-vers-lapi">Premier call vers l'API<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#premier-call-vers-lapi" class="hash-link" aria-label="Lien direct vers Premier call vers l'API" title="Lien direct vers Premier call vers l'API">​</a></h3>
+<p>Pour initialiser la première connexion, il faut d'abord savoir quoi faire. Donc, direction la documentation, section <em><strong>Init session</strong></em>. Cette requête va permettre de générer un token de session qui servira à l'utilisation de l'API. Pour générer cette requête, on va avoir besoin de certains paramètres. Il y a le choix entre 2 solutions :</p>
+<ul>
+<li>
+<p>l'utilisation d'un <em>user_token</em> (qui est la méthode la plus simple)</p>
+</li>
+<li>
+<p>l'<em>App-Token</em> couplé avec un <em>login</em> et <em>password</em>.</p>
+</li>
+</ul>
+<p>On va donc prendre la première option.</p>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p>Pour récupérer ce token, faut aller dans <em>Administration</em> &gt; <em>Utilisateurs</em> &gt; <em>{username}</em> et, tout en bas de la page, dans la section <strong>Clef d'accès distant</strong> doit apparaître le <em>Jeton d'API</em>. S'il n'est pas dispo, coche juste la case <em>Regénéré</em> à droite et clique sur <em>Sauvegarder</em>.</p></div></div>
+<p>On copie la clé et on retourne sur Postman.</p>
+<p><img decoding="async" loading="lazy" alt="postman init session" src="https://alfi67-git.github.io/assets/images/postman_initsession-9d7f924ca48bae3609b97fc755bbad19.png" width="961" height="679" class="img_ev3q"></p>
+<p>Faut aller dans la section <em>Authorization</em> et dans le menu déroulant <strong>Type</strong> chercher <em><strong>API KEY</strong></em>. Pour la Key, faut donc écrire <em>user_token</em> et dans Value, coller la clé copiée juste avant.</p>
+<p>Ensuite dans <em><strong>Params</strong></em> rajoute l'<strong>app_token</strong> généré plus haut en activant l'API.</p>
+<p>Et si tout est bon tu devrais dois un token de session qui apparaît dans le <em>Body</em> juste en dessous et qui se régénère à chaque exécusion de la commande.</p>
+<p>Comme ceci:
+<img decoding="async" loading="lazy" alt="postman session token" src="https://alfi67-git.github.io/assets/images/postman_session_token-fb949a657432d32edb69de9f1fa6bacb.png" width="961" height="757" class="img_ev3q"></p>
+<p>Ce token va être utile pour les autres commandes que je vais devoir exécuter, donc faut le garder dans un coin.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="lister-les-tous-les-ordis">Lister les tous les ordis<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#lister-les-tous-les-ordis" class="hash-link" aria-label="Lien direct vers Lister les tous les ordis" title="Lien direct vers Lister les tous les ordis">​</a></h3>
+<p>Pour que ça puisse fonctionner, il faut bien évidemment une liste d'ordis créés au préalable. J'en ai créé 4, on devrait donc en voir 4 de listé.</p>
+<p>Donc le but, c'est de lister tous les items, pour ce faire, direction la documentation une nouvelle fois dans la section <strong>Get all items</strong>. L'url est <code>apirest.php/:itemtype/</code>. Il faut logicement remplacer <code>:itemtype</code> par <code>Computer</code> vu que c'est ce que je cherche à afficher ici.</p>
+<p>l'url devrait donc ressembler à un truc comme ça : <code>http://localhost:8080/apirest.php/Computer</code></p>
+<p><strong>Paramètres :</strong></p>
+<ul>
+<li>Session-Token : qui est obligatoire.</li>
+<li>App-Token : qu'est pas obligatoire, mais si je ne le mets pas ça ne fonctionne pas...</li>
+<li>Session_token : c'est pas indiqué dans la doc, mais j'ai un message d'erreur si j'le mets pas...</li>
+</ul>
+<p>Après avoir ajouté tout ça, et cliqué sur <strong>Send</strong> j'obtiens donc un résultat, que voici :
+<img decoding="async" loading="lazy" alt="postman list d&amp;#39;items" src="https://alfi67-git.github.io/assets/images/postman_get_items-9c79413ff7d1eff59a7d8e751e448663.png" width="961" height="876" class="img_ev3q"></p>
+<p>Okay ! Parfait, ça fonctionne ! On va pouvoir passer à la suite, c-à-d <em>ajouter</em> un nouvel ordinateur dans la liste.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="ajouter-un-nouvel-ordinateur">Ajouter un nouvel ordinateur<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#ajouter-un-nouvel-ordinateur" class="hash-link" aria-label="Lien direct vers Ajouter un nouvel ordinateur" title="Lien direct vers Ajouter un nouvel ordinateur">​</a></h3>
+<p>Pour ajouter un objet, il va falloir changer le type de requête, faut passer en mode <strong>POST</strong>. L'url reste le même qu'avant, les paramètres de query sont les mêmes cependant maintenant faut définir le pc qu'on veut créer.</p>
+<p>Donc pour ça faut aller dans <strong>Body</strong> et sélectionner <em>raw</em> et c'est là dedans qu'on va pouvoir personnaliser notre premier pc créer via l'API.</p>
+<p>et j'ai ajouté cet input :</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">{</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">"input": {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    "name": "pc test api",</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    "users_id_tech": 4,</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    "states_id": 1</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    }</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">}</span><br></span></code></pre></div></div>
+<p>Ce qui m'a rendu ce résultat :
+<img decoding="async" loading="lazy" alt="pc créé" src="https://alfi67-git.github.io/assets/images/postman_creation_pc-970c28fe6ffb31574e75b1afc22fe275.png" width="961" height="876" class="img_ev3q"></p>
+<p>Donc maintenant il ne reste plus qu'à vérifier qu'il est bien présent dans la liste des pc de GLPI.</p>
+<p><img decoding="async" loading="lazy" alt="pc créé dans GLPI" src="https://alfi67-git.github.io/assets/images/GLPI_pc-255a08fc171c9b7523a56e7dddd918c8.png" width="917" height="381" class="img_ev3q"></p>
+<p>Ça y est ! Notre premier objet a été créé dans GLPI grâce à l'API !!</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="modifier-un-élément">Modifier un élément<a href="https://alfi67-git.github.io/blog/pfe-premier-pas/#modifier-un-%C3%A9l%C3%A9ment" class="hash-link" aria-label="Lien direct vers Modifier un élément" title="Lien direct vers Modifier un élément">​</a></h3>
+<p>Bon c'est super, mais le but de l'application c'est aussi de pouvoir modifier des choses.</p>
+<p>Pour modifier c'est rien de bien compliqué, on va prendre l'exact même URL que pour l'ajout, on va modifier la commande par <strong>PUT</strong> et dans le body on va mettre ceci (en ayant repéré l'id de l'objet que l'on souhaite modifier ):</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">{</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">"input": {</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    "id": "6",</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    "name": "pc test api modifié"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    }</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">}</span><br></span></code></pre></div></div>
+<p>Une fois la commande exécutée, on devrait avoir un message comme suivant :
+<img decoding="async" loading="lazy" alt="pc modifié dans GLPI" src="https://alfi67-git.github.io/assets/images/GLPI_pc_update-40d365b9e65d449ff37f0ea86dc10b0c.png" width="959" height="875" class="img_ev3q"></p>
+<p>Et pour vérifier que la commande a bien été prise en compte, il suffit de se rendre dans GLPI.
+<img decoding="async" loading="lazy" alt="pc modifié dans GLPI" src="https://alfi67-git.github.io/assets/images/GLPI_pc_update2-cd3a7f7dc4847ba05ec9ce2dbeaa03c9.png" width="922" height="402" class="img_ev3q"></p>
+<p>Et voilà ! Je sais à présent :</p>
+<ul>
+<li>Me connecter à l'API</li>
+<li>Ajouter un objet dans GLPI</li>
+<li>Et le modifier</li>
+</ul>]]></content>
+        <author>
+            <name>Alexandre FIDALGO</name>
+        </author>
+        <category label="CESI" term="CESI"/>
+        <category label="PFE" term="PFE"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🌐 Héberger son site gratuitement sur GitHub]]></title>
+        <id>https://alfi67-git.github.io/blog/host-son-site-sur-github/</id>
+        <link href="https://alfi67-git.github.io/blog/host-son-site-sur-github/"/>
+        <updated>2024-05-22T15:28:00.000Z</updated>
+        <summary type="html"><![CDATA[Il existe une solution pour héberger votre site web gratuitement avec GitHub, c'est ce que nous allons apprendre à faire dans ce tutoriel.]]></summary>
+        <content type="html"><![CDATA[<p>Il existe une solution pour héberger votre site web gratuitement avec GitHub, c'est ce que nous allons apprendre à faire dans ce tutoriel.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="mise-en-place-du-repository">Mise en place du repository<a href="https://alfi67-git.github.io/blog/host-son-site-sur-github/#mise-en-place-du-repository" class="hash-link" aria-label="Lien direct vers Mise en place du repository" title="Lien direct vers Mise en place du repository">​</a></h2>
+<p>Dans un premier temps, rendez-vous sur Github et au niveau de votre photo de profil, cliquer sur le + et créez un nouveau repo.</p>
+<p><img decoding="async" loading="lazy" alt="new-repo" src="https://alfi67-git.github.io/assets/images/new-repo-859e2646222ea30041e423ed7736823e.png" width="370" height="292" class="img_ev3q"></p>
+<p>Une nouvelle page apparaît ensuite, votre repo doit avoir le nom <em>username</em>.github.io, faite également en sorte qu'il soit <em>public</em>. Vous pouvez donner une description à votre repository, mais ça n'est pas obligatoire.</p>
+<p><img decoding="async" loading="lazy" alt="name-repo" src="https://alfi67-git.github.io/assets/images/name-repo-9dc742e57c1bc894de2f5471291b3ebf.png" width="735" height="474" class="img_ev3q"></p>
+<p>À présent, il faut push votre dossier sur lequel vous avez durement travaillé.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="mise-en-ligne-du-site">Mise en ligne du site<a href="https://alfi67-git.github.io/blog/host-son-site-sur-github/#mise-en-ligne-du-site" class="hash-link" aria-label="Lien direct vers Mise en ligne du site" title="Lien direct vers Mise en ligne du site">​</a></h2>
+<p>Une fois votre repo créé et vos fichier uploadés, il est temps de publier votre site.</p>
+<p>Dans les paramètres, rendez-vous dans la partie <em>pages</em>.</p>
+<p><img decoding="async" loading="lazy" alt="pages-github" src="https://alfi67-git.github.io/assets/images/settings-repo-0f4d2d9fd05f60cb4ae985cc69ba3a2f.png" width="919" height="114" class="img_ev3q"></p>
+<p>Dans la partie <strong>Build and deployment</strong> sélectionnez la <em>Source</em>, qui est:</p>
+<ul>
+<li>soit <em>GitHub Actions</em></li>
+<li>soit <em>Deploy from a branch</em></li>
+</ul>
+<p>À vous de sélectionner le bon en fonction de votre configuration, mais dans la majorité des cas ça sera la deuxième option.</p>
+<p>Sélectionnez également la <em>Branch</em> de votre repo et sauvegardez. Dans quelques instant, un message vous disant que votre site est publié devrait apparaître.</p>
+<p><img decoding="async" loading="lazy" alt="site-published" src="https://alfi67-git.github.io/assets/images/site_published-4eba035ea9544bde8dd03a6787af3de2.png" width="1107" height="679" class="img_ev3q"></p>
+<p>Et voilà ! Votre site est publié ! Vous pouvez le partager au monde entier !</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="nom-de-domaine-personnalisé">Nom de domaine personnalisé<a href="https://alfi67-git.github.io/blog/host-son-site-sur-github/#nom-de-domaine-personnalis%C3%A9" class="hash-link" aria-label="Lien direct vers Nom de domaine personnalisé" title="Lien direct vers Nom de domaine personnalisé">​</a></h2>
+<p>Votre site est publié, c'est très chouette, mais vous n'êtes pas très satisfait du nom de domaine par défaut donné par GitHub. Pas de panique, vous pouvez le changer, et ceci très facilement !</p>
+<p>Si vous avez acheté un nom de domaine auprès d'un fournisseur, vous pouvez préciser à GitHub le nom de domaine de votre souhait.</p>
+<p>Pour ce faire, vous devez faire quelques ajouts au niveau de votre fournisseur.</p>
+<p>Ici, nous prendrons le cas d'OVH puisque c'est celui que j'utilise, mais les ajouts à faire sont les mêmes peu importe le fournisseur.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="définir-le-nom-de-domaine">Définir le nom de domaine<a href="https://alfi67-git.github.io/blog/host-son-site-sur-github/#d%C3%A9finir-le-nom-de-domaine" class="hash-link" aria-label="Lien direct vers Définir le nom de domaine" title="Lien direct vers Définir le nom de domaine">​</a></h3>
+<p>Avant tout, il est recommandé de renseigner votre nom de domaine avant de procéder aux divers ajouts. Une fois renseigner, cliquez sur <em>Save</em> et attendez quelques secondes que la vérification DNS s'effectue.</p>
+<p><img decoding="async" loading="lazy" alt="site-published" src="https://alfi67-git.github.io/assets/images/subdomain-876b9897e190c02c32e6248c989b794e.png" width="1107" height="679" class="img_ev3q"></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="configurer-la-résolution-de-nom">Configurer la résolution de nom<a href="https://alfi67-git.github.io/blog/host-son-site-sur-github/#configurer-la-r%C3%A9solution-de-nom" class="hash-link" aria-label="Lien direct vers Configurer la résolution de nom" title="Lien direct vers Configurer la résolution de nom">​</a></h3>
+<p>Il à présent temps de voir un oeil au niveau de la configuration de notre nom de domaine.</p>
+<p>Rendez-vous sur le site de votre fournisseur de nom de domaine, sélectionnez votre nom de domaine et rajoutez une nouvelle entrée.</p>
+<ol>
+<li>
+<p>Sélectionnez le champ <strong>A</strong> (qui permet d'associer un nom de domaine à une adresse IP)</p>
+</li>
+<li>
+<p>Définissez en cible les serveurs de GitHub (plusieurs sont possibles, mais un seul suffis)</p>
+<p>2.1. Laissez le sous domaine vide</p>
+<p>2.2. Définissez la cible comme <code>185.199.108.153</code>
+<img decoding="async" loading="lazy" alt="ajout d&amp;#39;une zone" src="https://alfi67-git.github.io/assets/images/zone-A-fa5bebd3f275f4c3c05c21293ae5dcc2.png" width="604" height="542" class="img_ev3q"></p>
+</li>
+<li>
+<p>Ajouter un <strong>CNAME</strong> (similaire au champ A, mais permet de définir un nom alternatif)</p>
+<p>3.1. Définissez le sous domaine comme <code>www</code></p>
+<p>3.2. Définissez la cible comme <code>pseudogit.github.io</code></p>
+</li>
+</ol>
+<p><img decoding="async" loading="lazy" alt="ajout d&amp;#39;une zone" src="https://alfi67-git.github.io/assets/images/CNAME-8eb388c7298cfc4d8bfa6ca6d9f85b18.png" width="604" height="542" class="img_ev3q"></p>
+<p>Et si vous retournez sur GitHub vous devrez avoir un message tout en haut de la page vous précisant que votre site est bien publié et fonctionne avec le nom de domaine affilié.</p>
+<p><img decoding="async" loading="lazy" alt="site web publié" src="https://alfi67-git.github.io/assets/images/published2-2e54e3b48837afd6ce8b54449913f5e3.png" width="1119" height="683" class="img_ev3q"></p>
+<p>Et voilà, votre site est publié avec un nom de domaine personnalisé, le tout gratuitement !</p>
+<p><img decoding="async" loading="lazy" alt="bravo vous êtes sur internet" src="https://alfi67-git.github.io/assets/images/bravo-0b720dc03d1e1db2267f013fa48422d3.gif" width="498" height="280" class="img_ev3q"></p>
+<p>À bientôt pour de nouvelles aventures sur les internets 🤓 !</p>]]></content>
+        <author>
+            <name>Alexandre FIDALGO</name>
+        </author>
+        <category label="Github" term="Github"/>
+        <category label="Web" term="Web"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[👋 Hello World]]></title>
+        <id>https://alfi67-git.github.io/blog/hello-world/</id>
+        <link href="https://alfi67-git.github.io/blog/hello-world/"/>
+        <updated>2024-05-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Le tout premier article du site 😄 !]]></summary>
+        <content type="html"><![CDATA[<p>Le tout premier article du site 😄 !</p>
+<p>Bonjour à toi qui lis ça, t'auras pas grand-chose à lire pour le moment puisque ceci n'est que le tout premier article du site, mais d'autres sont à prévoir.</p>
+<p>Je pense que je partagerais mes projets, des petits tutos, mes découvertes ou l'avancement de mon apprentissage sur diverses choses..</p>]]></content>
+        <author>
+            <name>Alexandre FIDALGO</name>
+        </author>
+    </entry>
+</feed>

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkalfi=self.webpackChunkalfi||[]).push([[7327],{17:(e,s,u)=>{u.r(s),u.d(s,{default:()=>n});var i=u(1656),l=u(4848);function n(){return(0,l.jsx)(i.A,{children:(0,l.jsxs)("div",{children:[(0,l.jsx)("h1",{children:"About"}),(0,l.jsx)("p",{children:"Un peu plus sur moi"})]})})}}}]);
