@@ -1,0 +1,8 @@
+{
+  "label": "Docusaurus",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Toutes les docs sur Docusaurus. Je ne voulais pas les supprimer, alors je les ai mises là."
+  }
+}

@@ -1,0 +1,32 @@
+yangshun:
+  name: Yangshun Tay
+  title: Front End Engineer @ Facebook
+  url: https://github.com/yangshun
+  image_url: https://github.com/yangshun.png
+  page: true
+  socials:
+    x: yangshunz
+    github: yangshun
+
+slorber:
+  name: Sébastien Lorber
+  title: Docusaurus maintainer
+  url: https://sebastienlorber.com
+  image_url: https://github.com/slorber.png
+  page:
+    # customize the url of the author page at /blog/authors/<permalink>
+    permalink: '/all-sebastien-lorber-articles'
+  socials:
+    x: sebastienlorber
+    linkedin: sebastienlorber
+    github: slorber
+    newsletter: https://thisweekinreact.com
+
+alfi:
+  name: Alexandre FIDALGO
+  title: J'fais des trucs sur mon pc et mes serveurs
+  image_url: https://github.com/alfi67-git.png
+  socials:
+    github: alfi67-git
+    linkedin: alexandre-fidalgo
+    email: mailto:a.fidalgo.contact@gmail.com
