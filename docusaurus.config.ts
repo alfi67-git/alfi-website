@@ -19,7 +19,7 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'alfi67-git', // Usually your GitHub org/user name.
   projectName: 'alfi-website', // Usually your repo name.
-  deploymentBranch: 'main',
+  deploymentBranch: 'deployment',
   trailingSlash: true, 
 
   onBrokenLinks: 'warn',
