@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Le lab d\'Alfi',
   tagline: 'Toutes mes bidouilles au même endroit',
-  favicon: 'img/alfi.ico',
+  favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
   url: 'https://alfi67-git.github.io',
