@@ -119,7 +119,7 @@ Le but de cette MindMap était de vraiment découper l'ensemble du projet en sou
 ## Informations sur le lab
 Avant le déploiement en prod, c'est important d'avoir un lab où tester les différents playbook à executer.
 
-### 🖥 **Configuration du lab:**
+### 🖥 Configuration du lab:
 
 1. **1 VM de contrôle** où Ansible est installé.
 2. **Switch HPE 5130** un vieux switch qui servira pour les tests et qui ressevra l'ensemble des commandes executé grâce aux playbooks.
