@@ -15,18 +15,21 @@ Cet article est encore en cours de rédaction, le projet venant juste de commenc
 <!--truncate-->
 
 ---
+## Présentation du projet
+Cette année, le but du projet est de permettre là mise à jour et la sauvegarde de fichier de configuration de switch HPE, le tout avec l'utilisation de Git pour sauvegarder les configs et de Ansible pour automatiser le déploiement sur l'ensemble du parc. Bah ouais, on va pas sauvegarde/déployer des fichiers de config sur 2025 switchs à la mano.
 
-Ce projet doit permettre :
-- L'automatisation de déploiement de script de configuration de switch
+Donc pour faire court, ce projet doit permettre :
 - La mise à jour automatique des fichiers de conf
 - Sauvegarder les fichiers de configuration sur Git
+- L'automatisation de déploiement de fichier de configuration des switchs
 - Permettre le rollback en cas de défaillance
 
 ## Technologies utilisées
 
 ### 🔗 Git, c'est quoi ?
 
-Git est un **système de gestion de versions** qui permet de **suivre l’évolution des fichiers** dans un projet, principalement du code source.
+Git c'est un **système de gestion de versions** qui permet de **suivre l’évolution des fichiers** dans un projet. Ici on va s'en servir pour stocker l'ensemble des fichiers
+de configuration de nos switchs.
 
 Avec Git, tu peux :
 
@@ -38,32 +41,50 @@ Avec Git, tu peux :
 
 ✅ **Expérimenter avec des branches** avant d’intégrer des changements dans le projet principal
 
-Git est un outil **distribué**, c’est-à-dire que **chaque copie du projet contient tout l’historique des modifications**, sans dépendre d’un serveur central.
 
 ### ⚙️ Ansible, c'est quoi ?
 
-Ansible est un **outil d'automatisation** qui permet de **gérer des serveurs, installer des logiciels et configurer des systèmes** de manière simple et efficace.
+Ansible c'est un **outil d'automatisation** qui permet de **gérer des serveurs, installer des logiciels et configurer des systèmes** de manière simple et efficace. Ici il servira à administrer les switchs.
 
 Avec Ansible, tu peux :
 
 ✅ **Gérer plusieurs machines en même temps** avec un seul script
 
-✅ **Automatiser les tâches répétitives** comme l’installation de logiciels
+✅ **Automatiser les tâches répétitives** comme l’installation la sauvegarde de fichiers de configuration
 
 ✅ **Éviter les erreurs humaines** grâce à des configurations reproductibles
 
 ✅ **Utiliser un système sans agent**, car Ansible fonctionne via **SSH** (pour Linux) et **WinRM** (pour Windows)
 
-Ansible est **déclaratif** : tu écris ce que tu veux obtenir (ex: "Apache installé"), et il s’occupe du comment.
 
-#### Comment ça marche ?
+### 💡 Comment ça marche ?
+Pour que vous puissiez mieux comprendre le fonctionnement du projet, il me parrait plutôt évident d'expliquer le fonctionnement de Ansible.
 
-1. **Machine de contrôle** : Un serveur où Ansible est installé (peut être ton PC ou un serveur dédié).
-2. **Machines cibles** : Serveurs à configurer, accessibles en SSH.
-3. **Inventaire** : Un fichier listant les machines cibles.
-4. **Playbooks** : Scripts YAML définissant les actions à exécuter (installer un package, modifier un fichier, redémarrer un service, etc.).
+L'ensemble des illustration utilisé sont piqué du cours OpenClassrooms sur Ansible.
 
-```yaml
+
+![Node Manager](./images/node_manager.png)
+
+> Un **node manager**, ou ***control node***,  est la machine sur laquelle est installée Ansible et servira à contrôler les nodes grâce à une connexion SSH en utilisant les commande `ansible`et `ansible-playbook`. Ça peut être n’importe quelle machine Linux, mais pas de Windows.
+
+
+![Node](./images/node.png)
+
+> Un **node** (ou ***managed node***, ou ***host***) est un poste connecté au node manager en SSH, et sur lequel Ansible viendra pousser les tâches d’automatisation. Ansible n’est pas installé sur les nodes.
+
+:::info
+**Ansible** est un outil **angentless**, ce qui veut dire qu’il n’y a pas besoin de l’installer sur les nodes pour que ça fonctionne. Ansible travaille en mode **push**. Il n’utilise que les outils déjà installés, c’est à dire Python et SSH.
+:::
+
+![rôle ansible](./images/role.png)
+> Un rôle est une structure arborescente constituée de répertoires et de fichiers de configuration YAML, qui vont avoir pour fonction d’installer tel ou tel système. Les rôles peuvent être imbriqués et interdépendants les uns des autres.
+
+![Playbook](./images/playbook.png)
+> Un playbook est un fichier de configuration YAML qui contient un ensemble de tâche qui seront executé. Chaque playbook peut être constitué d'option, et fait appel à un ou plusieurs rôles. 
+
+#### Exemple de playbook
+```yaml title="install_apache.yml"
+---
 - name: Installer Apache
   hosts: webservers
   become: yes  # Exécuter en tant que root
@@ -75,78 +96,26 @@ Ansible est **déclaratif** : tu écris ce que tu veux obtenir (ex: "Apache inst
 ```
 👉 Ici, Ansible va se connecter aux machines du groupe webservers et installer Apache.
 
-Pour rentrer un peu plus dans les détails, Ansible automatise la gestion des systèmes distants et contrôle leur état souhaité.
+![Tâche](./images/task.png)
+>Une tâche est une instruction décrite en YAML dans un fichier de configuration. Chaque tâche utilise un module ainsi que quelques éventuels arguments supplémentaires.
 
-![control node ansible](./images/ansible_inv_start.svg)
+![Modules ](./images/modules.png)
+> Un module est un programme utilisé pour exécuter une tâche ou une commande Ansible. Chaque tâche utilise un module et un seul, qui peut prendre des arguments pour être exécuté de manière personnalisée. Ansible fournit de nombreux modules, mais il est possible d'utiliser ceux de la commaunauté, où de créer les siens.
 
-Comme montré dans la figure précédente, la plupart des environnements Ansible comportent trois composants principaux :
+#### Pour la faire courte 
+- un rôle contient un ou plusieurs fichiers de configuration YAML.
 
-**Nœud de contrôle :**
+- un fichier de configuration contient une ou plusieurs tâches
 
-Un système sur lequel Ansible est installé. Vous exécutez les commandes Ansible telles que `ansible` ou `ansible-inventory` sur un nœud de contrôle.
+- une tâche fait appel à un module.
 
-**Inventaire :**
-
-Une liste de nœuds gérés qui sont organisés de manière logique. Vous créez un inventaire sur le nœud de contrôle pour décrire les déploiements d'hôtes à Ansible.
-
-**Nœud géré :**
-
-Un système distant, ou hôte, qu'Ansible contrôle.
-
-## Premiers test
-
-Etant donnée que c'est la première fois que j'utilise Ansible, il faut bien que je puisse me faire la main dessus et comprendre comment ça fonctionne. Pour ce faire j'ai donc créer un petit lab de VMs sur VMware Workstation.
-
-Pour réaliser ce lab j'ai donc poser la question à ChatGPT de m'en proposer une et voici sa réponse :
-
-#### 🖥 Configuration minimale (3 VMs)
-
-1. **1 VM de contrôle** (où Ansible est installé)
-2. **2 VMs cibles** (serveurs gérés par Ansible)
-
-👉 **Pourquoi ce setup ?**
-
-- 1 machine pour exécuter Ansible
-- 2 machines cibles pour tester l'exécution sur plusieurs serveurs
-
-#### 🏗 Configuration recommandée (4+ VMs)
-
-Si tu veux tester différents rôles et services, voici une config plus avancée :
-
-1. **1 VM "Control Node"** (Fedora/Debian/Ubuntu) → Contient Ansible
-2. **1 VM "Web Server"** (Ubuntu/Debian/CentOS) → Pour tester le déploiement d’Apache/Nginx
-3. **1 VM "Database Server"** (Ubuntu/Debian/CentOS) → Pour tester l’installation de MySQL/PostgreSQL
-4. **1 VM "Client"** (Fedora/Debian) → Pour tester la connexion aux services
+- un module à plusieur arguments spécifié
 
 
-### 📌 Le lab :
-Voici donc l'état du lab actuellement : 
+## Information sur le lab
+Avant le déploiement en prod, c'est important d'avoir un lab où tester les différents playbook à executer.
 
-1. **1 VM de contrôle** (OS Fedora Server où Ansible est installé)
-2. **2 VMs cibles** (OS Debian serveurs gérés par Ansible)
+### 🖥 **Configuration du lab:**
 
-👉 **Pourquoi ce setup ?**
-
-- 1 machine pour exécuter Ansible
-- 2 machines cibles pour tester l'exécution sur plusieurs serveurs
-
-
-### 🌐 IP du lab :
-
-✅ **vm-fedo-ansible →** 192.168.2.134
-
-✅ **vm-deb-ansible   →** 192.168.2.135
-
-✅ **vm-deb-ansible2 →** 192.168.2.136
-
-![15629187859594_Capture d’e´cran 2019-07-12 a` 10.05.31.png](./images/15629187859594_Capture_decran_2019-07-12_a_10.05.31.png)
-
-### 💡 Infos sur Ansible :
-
-![15629296318823_Plan de travail 12@2x.png](./images/15629296318823_Plan_de_travail_122x.png)
-
-> Un **node manager**, ou ***control node***,  est un poste qui contrôle les nodes grâce à sa connexion SSH. Il dispose d'une version Ansible d’installé pour leur pousser les tâches d’automatisation grâce aux commandes `ansible` et `ansible-playbook`. Ça peut être n’importe quelle machine Linux, mais pas Windows.
-
-![15629302942908_Plan de travail 12 copie 4@2x.png](./images/15629302942908_Plan_de_travail_12_copie_42x.png)
-
-> Un **node** (ou ***managed node***, ou ***host***) est un poste connecté au node manager en SSH, et sur lequel Ansible viendra pousser les tâches d’automatisation. Ansible n’est pas installé sur les nodes.
+1. **1 VM de contrôle** où Ansible est installé.
+2. **Switch HPE 5130** un vieux switch qui servira pour les tests et qui ressevra l'ensemble des commandes executé grâce aux playbooks.
