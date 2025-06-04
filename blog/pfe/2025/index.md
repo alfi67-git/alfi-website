@@ -6,7 +6,7 @@ tags: [cesi, pfe]
 date: 2025-02-04T19:02
 ---
 
-Rebelote, pour la validation de ma 3e année d'étude, je dois réaliser un nouveau projet de fin d'étude. Cette fois-ci ça sera sur l'automatisation du déploiement de fichier de configuration de switch à l'aide d'Ansible.
+Rebelote, pour la validation de ma 3e année d'étude, je dois réaliser un nouveau projet de fin d'études. Cette fois-ci, ça sera sur l'automatisation du déploiement de fichier de configuration de switch à l'aide d'Ansible.
 
 :::warning
 Cet article est encore en cours de rédaction, je mettrais les dates lors d'ajouts de nouveaux éléments, alors n'hésitez pas à revenir plus tard pour voir l'évolution du projet.
@@ -16,9 +16,9 @@ Cet article est encore en cours de rédaction, je mettrais les dates lors d'ajou
 
 ---
 ## Présentation globale du projet
-Cette année, le but du projet est de permettre là mise à jour et la sauvegarde de fichier de configuration de switch HPE, le tout avec l'utilisation de Git pour sauvegarder les configs et de Ansible pour automatiser le déploiement sur l'ensemble du parc. Bah ouais, on va pas sauvegarde/déployer des fichiers de config sur 2025 switchs à la mano.
+Cette année, le but du projet est de permettre là mise à jour et la sauvegarde de fichier de configuration de switch HPE, le tout avec l'utilisation de Git pour sauvegarder les configs et de Ansible pour automatiser le déploiement sur l'ensemble du parc. Bah ouais, on ne va pas sauvegarde/déployer des fichiers de config sur 2025 switchs à la mano.
 
-Donc pour faire court, ce projet doit permettre :
+Donc, pour faire court, ce projet doit permettre :
 - La mise à jour automatique des fichiers de conf
 - Sauvegarder les fichiers de configuration sur Git
 - L'automatisation de déploiement de fichier de configuration des switchs
@@ -58,7 +58,7 @@ Avec Ansible, tu peux :
 
 
 ### 💡 Comment ça marche ?
-Pour que vous puissiez mieux comprendre le fonctionnement du projet, il me parrait plutôt évident d'expliquer le fonctionnement de Ansible.
+Pour que vous puissiez mieux comprendre le fonctionnement du projet, il me paraît plutôt évident d'expliquer le fonctionnement d'Ansible.
 
 Ansible se compose de plusieurs éléments :
 
@@ -110,14 +110,15 @@ Ansible se compose de plusieurs éléments :
 
 ## MindMap du projet
 Retrouver ici la MindMap du projet, où on peut voir l'ensemble des playbooks que j'ai à réalisé durant de projet :
+
 ![mindmap projet ansible](./images/mindmap.svg)
 
-Oui, elle est giganteste, mais c'est parce qu'elle est découpée en deux grosses parties. La partie qui concerne le réseau et la partie qui concerne Ansible.
+Oui, elle est gigantesque, mais c'est parce qu'elle est découpée en deux grosses parties. La partie qui concerne le réseau et la partie qui concerne Ansible.
 
-Le but de cette MindMap était de vraiment découper l'ensemble du projet en sous catégorie pour avoir une vision globale de ce qu'il y avait à faire.
+Le but de cette MindMap était de vraiment découper l'ensemble du projet en sous-catégorie pour avoir une vision globale de ce qu'il y avait à faire.
 
 ## Informations sur le lab
-Avant le déploiement en prod, c'est important d'avoir un lab où tester les différents playbook à executer.
+Avant le déploiement en prod, c'est important d'avoir un lab où tester les différents playbook à exécuter.
 
 ### 🖥 Configuration du lab:
 
@@ -130,19 +131,19 @@ Bon, comme c’est la première fois que je fais du Ansible et que je n’ai abs
 
 Là en l'occurrence le “*tuto*” que j’ai suivi est celui d’Openclassrooms, donc globalement tout ce qui sera dans cette première partie de l’article sera tiré de ce que j’ai fais avec le cours d’Openclassrooms. 
 
-Du moins c’est que j’avais commencé à faire avant de me rendre compte que le cours n’était pas maintenu, qu’il avait pleins de problèmes, et que les playbooks ne respectaient pas les bonnes pratiques, j’ai donc fini par attaquer directement la création de playbook pour le projet et je me suis dit que j’apprendrais sur le tas à force de faire et de me prendre plein d’erreurs dans les dents.
+Du moins c’est que j’avais commencé à faire avant de me rendre compte que le cours n’était pas maintenu, qu’il avait plein de problèmes, et que les playbooks ne respectaient pas les bonnes pratiques, j’ai donc fini par attaquer directement la création de playbook pour le projet et je me suis dit que j’apprendrais sur le tas à force de faire et de me prendre plein d’erreurs dans les dents.
 
-Bon maintenant que ça c’est dit, il est temps de mettre en place un environnement pour pouvoir travailler et apprendre à se servir d’Ansible.
+Bon maintenant que ça, c’est dit, il est temps de mettre en place un environnement pour pouvoir travailler et apprendre à se servir d’Ansible.
 
 ### Mise en place d'Ansible
-Le but ici est d’avoir une infrastructure qui puisse discuter avec le switch. J’avais déjà, lors de précédents mois, travaillé sur une infrastructure virtualisée pour apprendre à utiliser Ansible. J’étais partie dans cet optique également pour ce projet, or impossible de ping le switch depuis mes machines virtuelles sur WorkStation. J’ai pas voulu me casser trop la tête, j’ai donc décider de passer par WSL qui lui, pouvait ping le switch de test.
+Le but ici est d’avoir une infrastructure qui puisse discuter avec le switch. J’avais déjà, lors de précédents mois, travaillé sur une infrastructure virtualisée pour apprendre à utiliser Ansible. J’étais partie dans cette optique également pour ce projet, or impossible de ping le switch depuis mes machines virtuelles sur WorkStation. Je n'ai pas voulu me casser trop la tête, j’ai donc décider de passer par WSL qui lui, pouvait ping le switch de test.
 
-Le projet Ansible sera donc héberger sur un WSL debian.
+Le projet Ansible sera donc hébergé sur un WSL debian.
 
-J’ai donc monté un environnement virtuel et installer les différents paquets nécessaire à l’utilisation de Ansible.
+J’ai donc monté un environnement virtuel et installer les différents paquets nécessaires à l’utilisation d'Ansible.
 
-Un environnement virtuelle, est un environnement d'exécution isolé qui permet de gérer de façon indédamment du projet, les dépendances, scripts et versions de Python. En gros, t'as une vieille lib qu'est en 1.6 mais qui fonctionne qu'avec une vieille version de Python, tu créer ton venv et ça te permet de downgrade ton Python et d'utiliser ta lib uniquement dans cet environnement. Le but c'est d'éviter les conflits entre projets qui utilisent des versions différentes d'une même bibliothèdes.
-Resultat : chaque projet peut tourner avec sa stack précise, sans polluer l’environnement global.
+Un environnement virtuel, est un environnement d'exécution isolé qui permet de gérer de façon indépendamment du projet, les dépendances, scripts et versions de Python. En gros, t'as une vieille lib qu'est en 1.6, mais qui fonctionne qu'avec une vieille version de Python, tu créer ton venv et ça te permet de downgrade ton Python et d'utiliser ta lib uniquement dans cet environnement. Le but c'est d'éviter les conflits entre projets qui utilisent des versions différentes d'une même bibliothèque.
+Résultat : chaque projet peut tourner avec sa stack précise, sans polluer l’environnement global.
 
 Donc pour en mettre un en place, il faut commencer par installer différents packages, on créer ensuite le venv, une fois fait, il ne manque plus qu'à l'activer :
 ```bash
@@ -153,15 +154,15 @@ er0x@U2023028:~$ source venv-ansible/bin/activate   # pour activer l'environneme
 (venv-ansible) er0x@U2023028:~$ pip3 install argcomplete
 (venv-ansible) er0x@U2023028:~$ activate-global-python-argcomplete
 ```
-On sait qu'on est dans l'environnement quand on voit son nom affiché entre parenthèse avant le prompt du terminal.
+On sait qu'on est dans l'environnement quand on voit son nom affiché entre parenthèses avant le prompt du terminal.
 
-Ansible est correctement installé, il faut maintenant vérifié qu’il fonctionne en exécutant une commande qui exécutera la commande echo 'salut B0B' :
+Ansible est correctement installé, il faut maintenant vérifier qu’il fonctionne en exécutant une commande qui exécutera la commande echo 'salut B0B' :
 ```bash
 (venv-ansible) er0x@U2023028:~$ ansible all -i "localhost," -c local -m shell -a 'echo Salut B0B'
 localhost | CHANGED | rc=0 >>
 Salut B0B
 ```
-Il est à présent temps de créer et configurer un répertoire pour le projet:
+Il est à présent temps de créer et configurer un répertoire pour le projet :
 
 ```bash
 (venv-ansible) er0x@U2023028:~$ mkdir ansible-project && cd ansible-project
@@ -169,9 +170,9 @@ Il est à présent temps de créer et configurer un répertoire pour le projet:
 (venv-ansible) er0x@U2023028:~/ansible-project$ touch hosts.ini
 ```
 
-Avec la commande `ansible-config init` on génère une fichier de configuration standard avec toutes les sections et options courantes que je vais ensuite adapté à mes besoins et envie pour le projet.
+Avec la commande `ansible-config init` on génère un fichier de configuration standard avec toutes les sections et options courantes que je vais ensuite adapter à mes besoins et envie pour le projet.
 
-Entre autre, voici le fichier de configuration :
+Entre autres, voici le fichier de configuration :
 
 ```bash title="ansible.cfg"
 [defaults]
