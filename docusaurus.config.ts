@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import { Options } from '@dipakparmar/docusaurus-plugin-umami';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -153,28 +154,27 @@ const config: Config = {
 /* 
 ANALYSE UMAMI
 */
-// module.exports = {
-//   plugins: [
-//     [
-//       "@dipakparmar/docusaurus-plugin-umami",
-//       /** @type {import('@dipakparmar/docusaurus-plugin-umami').Options} */
-//       ({
-//         websiteID: "ab9a5196-cb7a-45e2-bb49-1531b197361d", // Required
-//         analyticsDomain: "analytics.afidalgo.fr", // Required
-//         scriptName: "script.js", // Optional, defaults to script.js
-//         dataHostURL: "", // Optional
-//         dataAutoTrack: true, // Optional, defaults to true
-//         dataDoNotTrack: false, // Optional, defaults to false
-//         dataCache: false, // Optional, defaults to false
-//         dataDomains: "afidalgo.fr", // Optional, comma separated list of domains, *Recommended*
-//         dataExcludeSearch: false, // Optional, defaults to false
-//         dataExcludeHash: false, // Optional, defaults to false
-//         dataTag: "", // Optional
-//       }),
-//     ],
-//   ],
-// };
+export default {
+  plugins: [
+    [
+      "@dipakparmar/docusaurus-plugin-umami",
+      {
+        websiteID: "ab9a5196-cb7a-45e2-bb49-1531b197361d", // Required
+        analyticsDomain: "analytics.afidalgo.fr", // Required
+        scriptName: "script.js", // Optional, defaults to script.js
+        dataHostURL: "", // Optional
+        dataAutoTrack: true, // Optional, defaults to true
+        dataDoNotTrack: false, // Optional, defaults to false
+        dataCache: false, // Optional, defaults to false
+        dataDomains: "", // Optional, comma separated list of domains, *Recommended*
+        dataExcludeSearch: false, // Optional, defaults to false
+        dataExcludeHash: false, // Optional, defaults to false
+        dataTag: "", // Optional
+      } as Options,
+    ],
+  ],
+};
 
 
 /* shadesOfPurple */
-export default config;
+/* export default config; */
