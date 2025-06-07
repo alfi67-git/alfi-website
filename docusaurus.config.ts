@@ -154,27 +154,27 @@ const config: Config = {
 /* 
 ANALYSE UMAMI
 */
-export default {
-  plugins: [
-    [
-      "@dipakparmar/docusaurus-plugin-umami",
-      {
-        websiteID: "ab9a5196-cb7a-45e2-bb49-1531b197361d", // Required
-        analyticsDomain: "analytics.afidalgo.fr", // Required
-        scriptName: "script.js", // Optional, defaults to script.js
-        dataHostURL: "", // Optional
-        dataAutoTrack: true, // Optional, defaults to true
-        dataDoNotTrack: false, // Optional, defaults to false
-        dataCache: false, // Optional, defaults to false
-        dataDomains: "", // Optional, comma separated list of domains, *Recommended*
-        dataExcludeSearch: false, // Optional, defaults to false
-        dataExcludeHash: false, // Optional, defaults to false
-        dataTag: "", // Optional
-      } as Options,
-    ],
-  ],
-};
+// export default {
+//   plugins: [
+//     [
+//       "@dipakparmar/docusaurus-plugin-umami",
+//       {
+//         websiteID: "ab9a5196-cb7a-45e2-bb49-1531b197361d", // Required
+//         analyticsDomain: "analytics.afidalgo.fr", // Required
+//         scriptName: "script.js", // Optional, defaults to script.js
+//         dataHostURL: "", // Optional
+//         dataAutoTrack: true, // Optional, defaults to true
+//         dataDoNotTrack: false, // Optional, defaults to false
+//         dataCache: false, // Optional, defaults to false
+//         dataDomains: "", // Optional, comma separated list of domains, *Recommended*
+//         dataExcludeSearch: false, // Optional, defaults to false
+//         dataExcludeHash: false, // Optional, defaults to false
+//         dataTag: "", // Optional
+//       } as Options,
+//     ],
+//   ],
+// };
 
 
 /* shadesOfPurple */
-/* export default config; */
+export default config;
