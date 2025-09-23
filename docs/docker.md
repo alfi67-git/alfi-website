@@ -51,7 +51,7 @@ docker images
 ### Créer et exécuter un conteneur
 
 ```bash
-docker run -d -p 8080:80 --name mon-apache httpd
+docker run -d -p 8080:80 --name container httpd
 ```
 
 Lance un serveur web Apache en arrière-plan (`-d`), accessible sur le port 8080.
@@ -65,31 +65,31 @@ docker ps
 ### Arrêter un conteneur
 
 ```bash
-docker stop mon-apache
+docker stop container
 ```
 
 ### Supprimer un conteneur
 
 ```bash
-docker rm mon-apache
+docker rm container
 ```
 
 ### Supprimer une image
 
 ```bash
-docker rmi httpd
+docker rmi image
 ```
 
 ### Voir les logs d’un conteneur
 
 ```bash
-docker logs mon-apache
+docker logs container
 ```
 
 ### Accéder à un conteneur en ligne de commande
 
 ```bash
-docker exec -it mon-apache bash
+docker exec -it container /bin/bash
 ```
 
 ---
