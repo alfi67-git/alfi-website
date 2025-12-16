@@ -1,0 +1,8 @@
+{
+  "label": "Supervision",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "L'ensemble des docs sur les différentes solutions de supervision"
+  }
+}
