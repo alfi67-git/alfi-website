@@ -6,7 +6,7 @@ tags: [zabbix, suppervision, projets]
 date: 2025-06-09
 ---
 
-Pour garder un oeil sur ce qu'il se passe sur mon lab, j'avais besoin d'un outils de supervision. Comme j'avais déjà aidé à le mettre en place dans une précédente entreprise durant l'une de mes alternances, et par conséquent, j'avais déjà un peu d'expérience avec, je suis parti sur Zabbix.
+Pour garder un œil sur ce qu'il se passe sur mon lab, j'avais besoin d'un outil de supervision. Comme j'avais déjà aidé à le mettre en place dans une précédente entreprise durant l'une de mes alternances, et par conséquent, j'avais déjà un peu d'expérience avec, je suis parti sur Zabbix.
 
 Quite à le mettre en place, je me suis dit : "pourquoi ne pas en faire une doc ?!".
 
@@ -28,17 +28,17 @@ C’est scalable, ça gère les templates, l’auto-discovery, et l’API est ou
 Il est possible d’installer Zabbix de 2 façons. Soit avec des packages et donc avec une VM attitrée, soit avec Docker. J’ai choisi l’option VM. 
 
 Pourquoi ? 
-Car en fouillant un peu la [Documentation](https://www.zabbix.com/documentation/current/en/manual/installation/containers) (qui est très bien faite), je me suis rendu compte qu’il n’y avait de disponible que des docker file pour Ubuntu, bien que Ubuntu soit basé sur Debian, j’ai préféré éviter de me complexifié la vie, et j’ai simplement installer une nouvelle VM.
+Car en fouillant un peu la [Documentation](https://www.zabbix.com/documentation/current/en/manual/installation/containers) (qui est très bien faite), je me suis rendu compte qu’il n’y avait de disponible que des docker file pour Ubuntu, bien que Ubuntu soit basé sur Debian, j’ai préféré éviter de me complexifier la vie, et j’ai simplement installé une nouvelle VM.
 
-Bien pour commencer, ce qu’on peut faire c’est commencer par installer le plugin pour Zabbix dans Grafana. Pour ce faire il faut se rendre dans le contenaire Grafana et lancer la commande suivante : 
+Bien pour commencer, ce qu’on peut faire, c’est commencer par installer le plugin pour Zabbix dans Grafana. Pour ce faire, il faut se rendre dans le conteneure Grafana et lancer la commande suivante : 
 
 ```bash
 grafana cli plugins install alexanderzobnin-zabbix-app
 ```
 
-Bien que le plugin est installé, il faut encore l’activé.
+Bien que le plugin soit installé, il faut encore l’activé.
 
-Pour ce faire il faut se rendre dans le menu *Administration > Plugins and Data > Plugins > Zabbix* et enfin cliqué sur le bouton *Enable*
+Pour ce faire il faut se rendre dans le menu *Administration > Plugins and Data > Plugins > Zabbix* et enfin cliquer sur le bouton *Enable*
 
 ![plugin zabbix grafana](./images/zabbix_plugin.png)
 
@@ -56,7 +56,7 @@ sudo apt -y update && sudo apt upgrade && sudo apt full-upgrade && sudo apt auto
 sudo apt install mariadb-server mariadb-client -y
 ```
 
-Une fois fait, il faut démarrer le service et l’activer et enfin effectuer une sécurisation de base à l’aide du script “mysql_secure_installation”
+Une fois fait, il faut démarrer le service, l’activer et enfin effectuer une sécurisation de base à l’aide du script “mysql_secure_installation”
 
 ```bash
 sudo systemctl start mariadb
@@ -136,7 +136,7 @@ Direction la page de [Téléchargement](https://www.zabbix.com/download?zabbix=7
 ![depots zabbix](./images/depots_zabbix.png)
 
 
-Ces commandes permet d’installer les **dépôts officiel** pour Zabbix.
+Ces commandes permettent d’installer les **dépôts officiel** pour Zabbix.
 
 ```bash
 wget https://repo.zabbix.com/zabbix/7.2/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.2+debian12_all.deb
@@ -174,13 +174,13 @@ set global log_bin_trust_function_creators = 1;
 quit; 
 ```
 
-Il faut maintenant importer le schéma initial de Zabbix en utilisant le compte utilisateur nouvellement créer, ainsi que son mot de passe :
+Il faut maintenant importer le schéma initial de Zabbix en utilisant le compte utilisateur nouvellement créé, ainsi que son mot de passe :
 
 ```bash
 zcat /usr/share/zabbix/sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix 
 ```
 
-Une fois fait il faut désactiver l’option après l’importation du schéma de la db:
+Une fois fait, il faut désactiver l’option après l’importation du schéma de la db:
 
 ```sql
 set global log_bin_trust_function_creators = 0;
@@ -195,7 +195,7 @@ Plus qu’à définir le mot de passe pour la database de Zabbix, pour ça il fa
 DBPassword=password
 ```
 
-Plus qu’a redémarrer les services :
+Plus qu’à redémarrer les services :
 
 ```bash
 systemctl restart zabbix-server zabbix-agent apache2
@@ -208,7 +208,7 @@ Maintenant que tout est installé, il suffis juste de se rendre sur l’url du s
 
 ![install](./images/install.png)
 
-Pour des raisons de simplicité, je vais sélectionner la langue Fr, mais rien ne vous empèche de laisser en anglais. Dans tous les cas ce paramètres est modifiable plus tard.
+Pour des raisons de simplicité, je vais sélectionner la langue Fr, mais rien ne vous empêche de laisser en anglais. Dans tous les cas, ce paramètre est modifiable plus tard.
 
 Assurer vous que toutes les vérifications des prérequis sont OK comme suivant:
 
