@@ -8,7 +8,7 @@ date: 2025-06-09
 
 Pour garder un œil sur ce qu'il se passe sur mon lab, j'avais besoin d'un outil de supervision. Comme j'avais déjà aidé à le mettre en place dans une précédente entreprise durant l'une de mes alternances, et par conséquent, j'avais déjà un peu d'expérience avec, je suis parti sur Zabbix.
 
-Quite à le mettre en place, je me suis dit : "pourquoi ne pas en faire une doc ?!".
+Si déjà, je le mets en place, je me suis dit : "pourquoi ne pas en faire une doc ?!".
 
 Alors voici : **Comment installer Zabbix sur Debian**
 
@@ -17,28 +17,34 @@ Alors voici : **Comment installer Zabbix sur Debian**
 ## Zabbix c'est quoi ?
 Avant de commencer, ça peut être bien de faire une petite introduction à la solution que j'ai choisi d'utiliser.
 
-Zabbix, c’est une solution de supervision open source ultra complète, taillée pour monitorer toute ton infra IT – serveurs, VMs, bases de données, équipements réseau, applis, cloud, conteneurs, et même des trucs plus exotiques via des agents ou du SNMP (on vera ça plus tard).
+Zabbix, c’est une solution de supervision open source ultra complète, taillée pour monitorer toute ton infra IT 
+– serveurs, VMs, bases de données, équipements réseau, applis, cloud, conteneurs, et même des trucs plus exotiques via des agents ou du SNMP (on verra ça plus tard).
 
-L’idée ? Avoir une vision temps réel de la santé de ton système, détecter les pannes avant que ça crame, et centraliser les alertes avec des triggers personnalisables. Tu poses tes seuils, tu configures tes graphes, et tu pilotes tout via une interface web un peu old school mais super efficace.
+L’idée ? Avoir une vision en temps réel de la santé de ton système, détecter les pannes avant que ça crame, et centraliser les alertes avec des triggers personnalisables. 
+Tu poses tes seuils, tu configures tes graphes, et tu pilotes tout via une interface web un peu old school, mais super efficace.
 
-C’est scalable, ça gère les templates, l’auto-discovery, et l’API est ouverte pour s’intégrer dans ta stack. Bref, Zabbix c’est le couteau suisse de la supervision, quand tu veux vraiment garder le contrôle sur ton infra.
+C’est scalable, ça gère les templates, l’auto-discovery, et l’API est ouverte pour s’intégrer dans ta stack. 
+Bref, Zabbix c’est le couteau suisse de la supervision, quand tu veux vraiment garder le contrôle sur ton infra.
 
 ## Installation de Zabbix
 
 Il est possible d’installer Zabbix de 2 façons. Soit avec des packages et donc avec une VM attitrée, soit avec Docker. J’ai choisi l’option VM. 
 
 Pourquoi ? 
-Car en fouillant un peu la [Documentation](https://www.zabbix.com/documentation/current/en/manual/installation/containers) (qui est très bien faite), je me suis rendu compte qu’il n’y avait de disponible que des docker file pour Ubuntu, bien que Ubuntu soit basé sur Debian, j’ai préféré éviter de me complexifier la vie, et j’ai simplement installé une nouvelle VM.
+Car en fouillant un peu la [Documentation](https://www.zabbix.com/documentation/current/en/manual/installation/containers) (qui est très bien faite), 
+je me suis rendu compte qu’il n’y avait de disponible que des docker file pour Ubuntu. 
+Bien qu'Ubuntu soit basé sur Debian, j’ai préféré éviter de me complexifier la vie, et j’ai simplement installé une nouvelle VM.
 
-Bien pour commencer, ce qu’on peut faire, c’est commencer par installer le plugin pour Zabbix dans Grafana. Pour ce faire, il faut se rendre dans le conteneure Grafana et lancer la commande suivante : 
+Bien pour commencer, ce qu’on peut faire, c’est commencer par installer le plugin pour Zabbix dans Grafana. 
+Pour ce faire, il faut se rendre dans le conteneur Grafana et lancer la commande suivante : 
 
 ```bash
 grafana cli plugins install alexanderzobnin-zabbix-app
 ```
 
-Bien que le plugin soit installé, il faut encore l’activé.
+Bien que le plugin soit installé, il faut encore l’activer.
 
-Pour ce faire il faut se rendre dans le menu *Administration > Plugins and Data > Plugins > Zabbix* et enfin cliquer sur le bouton *Enable*
+Pour ce faire, il faut se rendre dans le menu *Administration > Plugins and Data > Plugins > Zabbix* et enfin cliquer sur le bouton *Enable*
 
 ![plugin zabbix grafana](./images/zabbix_plugin.png)
 
@@ -56,7 +62,7 @@ sudo apt -y update && sudo apt upgrade && sudo apt full-upgrade && sudo apt auto
 sudo apt install mariadb-server mariadb-client -y
 ```
 
-Une fois fait, il faut démarrer le service, l’activer et enfin effectuer une sécurisation de base à l’aide du script “mysql_secure_installation”
+Maintenant que c'est fait, il faut démarrer le service, l’activer et enfin effectuer une sécurisation de base à l’aide du script “mysql_secure_installation”
 
 ```bash
 sudo systemctl start mariadb
@@ -180,7 +186,7 @@ Il faut maintenant importer le schéma initial de Zabbix en utilisant le compte 
 zcat /usr/share/zabbix/sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix 
 ```
 
-Une fois fait, il faut désactiver l’option après l’importation du schéma de la db:
+Dès que fait, il faut désactiver l’option après l’importation du schéma de la db:
 
 ```sql
 set global log_bin_trust_function_creators = 0;
@@ -189,7 +195,7 @@ quit;
 
 ## Configuration de Zabbix Server
 
-Plus qu’à définir le mot de passe pour la database de Zabbix, pour ça il faut aller dans `/etc/zabbix/zabbix_server.conf`
+Plus qu’à définir le mot de passe pour la database de Zabbix, pour ça, il faut aller dans `/etc/zabbix/zabbix_server.conf`
 
 ```bash
 DBPassword=password
@@ -204,7 +210,8 @@ systemctl enable zabbix-server zabbix-agent apache2
 
 ## Finalisation de l'installation
 
-Maintenant que tout est installé, il suffis juste de se rendre sur l’url du site : [`http://ip-de-votre-machine/zabbix`](http://ip-de-votre-machine/zabbix) et votre page devrais apparaitre ceci :
+Maintenant, que tout est installé, il suffit juste de se rendre sur l’url du site : 
+[`http://ip-de-votre-machine/zabbix`](http://ip-de-votre-machine/zabbix) et votre page devrait apparaitre comme ceci :
 
 ![install](./images/install.png)
 
@@ -226,7 +233,7 @@ Remplissez ici en fonction vos paramètres à vous:
 
 ![installed](./images/installed.png)
 
-Pour la première connexion, il faut utiliser les identifiants provisoire 
+Pour la première connexion, il faut utiliser les identifiants provisoire.
 
 - **Nom d’utilisateur** : Admin
 - **Mot de passe** : zabbix
