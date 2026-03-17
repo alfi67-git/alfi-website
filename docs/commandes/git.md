@@ -1,4 +1,4 @@
-# Git
+# Commandes Git
 
 ## 🛡️ Git, c'est quoi ?
 
@@ -28,11 +28,20 @@
 
 ## 🛠 Les commandes Git essentielles
 
-# Configurer git
+### Configurer git
 
 ```bash
-git config --global user.name "John Doe"
-git config --global user.email johndoe@example.com
+git config --global user.name "username"
+git config --global user.email "email@example.com"
+```
+### Vérifier configuration git
+```bash
+git config --list
+```
+### Supprimer une configuration
+```bash
+git config --global --unset user.name
+git config --global --unset user.email
 ```
 
 ### Initialiser un nouveau projet Git

@@ -1,0 +1,8 @@
+{
+  "label": "Commandes",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Liste de commandes pour tout un tas choses"
+  }
+}
