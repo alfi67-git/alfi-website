@@ -1,6 +1,6 @@
 ---
 slug: pfe-premier-pas
-title: 🎓 Projet de Fin d'Étude | Utilisation de Postman
+title: 🎓 Projet de Fin d'Étude BAC +2 | Utilisation de Postman
 authors: [alfi]
 tags: [cesi, pfe]
 date: 2024-05-24T23:38

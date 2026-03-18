@@ -6,7 +6,7 @@ tags: [cesi, pfe]
 date: 2025-02-04T19:02
 ---
 
-Rebelote, pour la validation de ma 3e année d'étude, je dois réaliser un nouveau projet de fin d'études. Cette fois-ci, ça sera sur l'automatisation du déploiement de fichier de configuration de switch à l'aide d'Ansible.
+Rebelote, pour la validation de ma 3e année d'étude, je dois réaliser un nouveau projet de fin d'études. Cette fois-ci, ça sera sur l'automatisation d'execution de commandes de switch à l'aide d'Ansible.
 
 :::warning
 Cet article est encore en cours de rédaction, je mettrais les dates lors d'ajouts de nouveaux éléments, alors n'hésitez pas à revenir plus tard pour voir l'évolution du projet.
@@ -16,7 +16,8 @@ Cet article est encore en cours de rédaction, je mettrais les dates lors d'ajou
 
 ---
 ## Présentation globale du projet
-Cette année, le but du projet est de permettre là mise à jour et la sauvegarde de fichier de configuration de switch HPE, le tout avec l'utilisation de Git pour sauvegarder les configs et de Ansible pour automatiser le déploiement sur l'ensemble du parc. Bah ouais, on ne va pas sauvegarde/déployer des fichiers de config sur 2025 switchs à la mano.
+L'idée de base du projet était de permettre la mise à jour et la sauvegarde de fichier de configuration de switch HPE. Le tout sauvegardé sur un Git local et utiliser Ansible pour automatiser l'exécution sur l'ensemble du parc. Le but étant de gagner du temps et éviter de devoir intervenir sur 2025 switch à la mano.
+
 
 Donc, pour faire court, ce projet doit permettre :
 - La mise à jour automatique des fichiers de conf
