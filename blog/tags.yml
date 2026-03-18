@@ -33,10 +33,10 @@ pfe:
   permalink: /pfe
   description: Tous les articles concernant mes projets de fin d'étude.
 
-ynov:
-  label: Ynov
-  permalink: /ynov
-  description: Tous les articles en lien avec l'école Ynov.
+iris:
+  label: Iris
+  permalink: /iris
+  description: Tous les articles en lien avec l'école Iris.
 
 minecraft:
   label: Minecraft
@@ -52,3 +52,4 @@ web:
   label: Web
   permalink: /web
   description: Les trucs sur le web c'est là.
+
