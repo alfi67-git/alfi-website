@@ -1,27 +1,17 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description.
-
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description.
-
 docusaurus:
   label: Docusaurus
   permalink: /docusaurus
-  description: Docusaurus tag description.
+  description: Docusaurus.
 
 docker:
   label: Docker
   permalink: /docker
-  description: Docker tag description.
+  description: Doocker.
 
 github:
   label: Github
   permalink: /github
-  description: GitHub tag description.
+  description: GutHib.
 
 cesi:
   label: CESI
@@ -53,3 +43,17 @@ web:
   permalink: /web
   description: Les trucs sur le web c'est là.
 
+debian:
+  label: Debian
+  permalink: /debian
+  description: Tous les articles qui parlent de debian.
+
+linux:
+  label: linux
+  permalink: /linux
+  description: Tout ce qui contient du Linux ou qui en parle, tu peux le retrouver ici.
+
+supervision:
+  label: Supervision
+  permalink: /supervision
+  description: Les outils ou les configurations d'outils de supervision sont tous ici.
