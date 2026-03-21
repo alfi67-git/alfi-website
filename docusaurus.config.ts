@@ -89,7 +89,7 @@ const config: Config = {
 
         {
           href: 'https://github.com/alfi67-git',
-          label: 'GHub',
+          label: 'GitHub',
           position: 'right',
         },
         {
