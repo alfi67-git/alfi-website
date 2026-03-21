@@ -85,7 +85,7 @@ const config: Config = {
           label: 'Documentation',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
-        {to: '/about', label: 'À Propos', position: 'left'},
+        /*{to: '/about', label: 'À Propos', position: 'left'},*/
 
         {
           href: 'https://github.com/alfi67-git',
