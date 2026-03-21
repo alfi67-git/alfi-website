@@ -2,7 +2,7 @@
 slug: assurcorp
 title: Projet de cours Assurcorp
 authors: [alfi]
-tags: [iris, projet, assurcorp]
+tags: [iris]
 date: 2025-11-04T19:02
 ---
 
