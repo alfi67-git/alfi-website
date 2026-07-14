@@ -40,7 +40,7 @@ Créer un group
 groupadd nomgroup
 ```
 
-# Gestion d’archive
+## Gestion d’archive
 
 Décompresser une archive :
 
@@ -128,6 +128,14 @@ sudo systemctl restart systemd-logind
 ```bash
 python3 -m venv ansible
 ```
+
+## Créer clé SSH
+`ssh-keygen`
+
+### Copier la clé publique sur un poste distant
+```bash
+ssh-copy-id `username`@`remote-host`
+``` 
 
 ## Problème SSH
 
