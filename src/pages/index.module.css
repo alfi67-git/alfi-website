@@ -256,6 +256,13 @@
   font-size: 0.85rem;
 }
 
+.bootStatus {
+  color: var(--soft-periwinkle);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+}
+
 .commitTitle {
   margin: 0.2rem 0 0.1rem;
   font-weight: 600;
