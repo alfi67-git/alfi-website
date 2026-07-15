@@ -1,23 +1,348 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.page {
+  font-family: var(--font-mono);
+  padding-bottom: 4rem;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
+/* ---------- Prompt & lignes de terminal ---------- */
+
+.prompt {
+  color: var(--soft-periwinkle);
+  font-weight: 600;
+  margin-right: 0.4em;
+}
+
+.line {
+  margin: 0.3rem 0;
+  color: var(--ifm-font-color-base);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  background: var(--periwinkle);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
 
-.buttons {
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
+}
+
+/* ---------- Hero / fenêtre terminal ---------- */
+
+.hero {
+  max-width: 860px;
+  margin: 3.5rem auto 5rem;
+  padding: 0 1.25rem;
+}
+
+.terminal {
+  background: var(--card-background);
+  border: 1px solid color-mix(in srgb, var(--soft-periwinkle) 35%, transparent);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px -20px color-mix(in srgb, var(--soft-periwinkle) 35%, transparent);
+}
+
+.terminalBar {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0.9rem;
+  background: color-mix(in srgb, var(--ifm-background-color) 55%, var(--card-background));
+  border-bottom: 1px solid color-mix(in srgb, var(--soft-periwinkle) 20%, transparent);
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--periwinkle);
+}
+.dot:nth-child(1) {
+  background: var(--soft-periwinkle);
+}
+.dot:nth-child(2) {
+  background: var(--periwinkle);
+  opacity: 0.75;
+}
+.dot:nth-child(3) {
+  background: var(--periwinkle);
+  opacity: 0.45;
+}
+
+.terminalPath {
+  margin-left: 0.6rem;
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 55%, transparent);
+}
+
+.terminalBody {
+  padding: 1.75rem 1.75rem 2.1rem;
+}
+
+.name {
+  font-size: clamp(2rem, 5vw, 2.9rem);
+  margin: 0.6rem 0 0.15rem;
+  color: var(--ifm-heading-color);
+  letter-spacing: -0.01em;
+}
+
+.role {
+  color: var(--periwinkle);
+  margin: 0 0 1.1rem;
+  font-size: 1.05rem;
+}
+
+.heroActions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.btnPrimary,
+.btnGhost {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1px solid var(--soft-periwinkle);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.btnPrimary {
+  background: var(--soft-periwinkle);
+  color: var(--carbon-black);
+  font-weight: 600;
+}
+
+.btnGhost {
+  background: transparent;
+  color: var(--periwinkle);
+}
+
+.btnPrimary:hover,
+.btnGhost:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ---------- Sections génériques ---------- */
+
+.section {
+  max-width: 860px;
+  margin: 0 auto 4.5rem;
+  padding: 0 1.25rem;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.section.revealed,
+.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.sectionLabel {
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 70%, transparent);
+  margin-bottom: 1.1rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--soft-periwinkle) 30%, transparent);
+  padding-bottom: 0.6rem;
+}
+
+/* ---------- About ---------- */
+
+.aboutBlock {
+  background: var(--card-background);
+  border-left: 3px solid var(--soft-periwinkle);
+  padding: 1.1rem 1.3rem;
+  border-radius: 0 6px 6px 0;
+}
+
+.aboutLine {
+  margin: 0.4rem 0;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 92%, transparent);
+}
+
+/* ---------- Skills ---------- */
+
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.skillCategory {
+  background: var(--card-background);
+  border: 1px solid color-mix(in srgb, var(--soft-periwinkle) 18%, transparent);
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+}
+
+.skillFolder {
+  color: var(--soft-periwinkle);
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+}
+
+.skillList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.92rem;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 85%, transparent);
+}
+
+.skillList li {
+  margin: 0.3rem 0;
+}
+
+.treeBranch {
+  color: color-mix(in srgb, var(--periwinkle) 60%, transparent);
+}
+
+/* ---------- Expérience / timeline en commits ---------- */
+
+.timeline {
+  border-left: 2px solid color-mix(in srgb, var(--soft-periwinkle) 30%, transparent);
+  padding-left: 1.4rem;
+}
+
+.commit {
+  position: relative;
+  margin-bottom: 1.6rem;
+}
+
+.commit::before {
+  content: '';
+  position: absolute;
+  left: -1.53rem;
+  top: 0.35rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--soft-periwinkle);
+}
+
+.commitHash {
+  color: var(--periwinkle);
+  font-size: 0.85rem;
+}
+
+.commitTitle {
+  margin: 0.2rem 0 0.1rem;
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+}
+
+.commitDate {
+  margin: 0 0 0.35rem;
+  font-size: 0.82rem;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 55%, transparent);
+}
+
+.commitDetail {
+  margin: 0;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 82%, transparent);
+  font-size: 0.92rem;
+}
+
+/* ---------- Projets ---------- */
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.1rem;
+}
+
+.projectCard {
+  display: block;
+  background: var(--card-background);
+  border: 1px solid color-mix(in srgb, var(--soft-periwinkle) 18%, transparent);
+  border-radius: 8px;
+  padding: 1.1rem 1.2rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.projectCard:hover {
+  border-color: var(--soft-periwinkle);
+  transform: translateY(-3px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.projectName {
+  margin: 0 0 0.5rem;
+  color: var(--periwinkle);
+  font-size: 0.92rem;
+}
+
+.projectDesc {
+  margin: 0 0 0.8rem;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--ifm-font-color-base) 85%, transparent);
+  line-height: 1.5;
+}
+
+.projectStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--soft-periwinkle) 18%, transparent);
+  color: var(--periwinkle);
+}
+
+/* ---------- Contact ---------- */
+
+.contactGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.contactLink {
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  font-size: 0.98rem;
+  width: fit-content;
+}
+
+.contactLink:hover {
+  color: var(--periwinkle);
+  text-decoration: underline;
 }
