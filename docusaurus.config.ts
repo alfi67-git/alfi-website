@@ -34,6 +34,11 @@ const config: Config = {
     locales: ['fr'],
   },
 
+
+  stylesheets: [
+  'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap',
+  ],
+
   presets: [
     [
       'classic',
@@ -67,6 +72,28 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    [
+      "@dipakparmar/docusaurus-plugin-umami",
+      /* @type {import('@dipakparmar/docusaurus-plugin-umami').Options} */
+      ({
+        websiteID: "ab9a5196-cb7a-45e2-bb49-1531b197361d", // Required
+        analyticsDomain: "analytics.afidalgo.fr", // Required
+        scriptName: "script.js", // Optional, defaults to script.js
+        // dataHostURL: "", // Optional
+        dataAutoTrack: true, // Optional, defaults to true
+        dataDoNotTrack: false, // Optional, defaults to false
+        dataCache: false, // Optional, defaults to false
+        // dataDomains: "", // Optional, comma separated list of domains, *Recommended*
+        dataExcludeSearch: false, // Optional, defaults to false
+        dataExcludeHash: false, // Optional, defaults to false
+        // dataTag: "", // Optional
+        dataBeforeSend: "beforeSendHandler", // Optional
+      }),
+    ],
+  ],
+
+
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
@@ -89,13 +116,14 @@ const config: Config = {
 
         {
           href: 'https://github.com/alfi67-git',
-          label: 'GitHub',
           position: 'right',
+          className: 'navbar-github-link', 'aria-label': 'GitHub'
         },
         {
           href: 'https://www.linkedin.com/in/alexandre-fidalgo/',
-          label: 'LinkedIn',
           position: 'right',
+          className: 'navbar-linkedin-link', 
+          'aria-label': 'LinkedIn'
         },
       ],
     },
@@ -146,33 +174,10 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} Lab d\'Alfi, Built with Docusaurus.`,
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      //theme: prismThemes.github,
+      //darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
-};
-
-module.exports = {
-  plugins: [
-    [
-      "@dipakparmar/docusaurus-plugin-umami",
-      /** @type {import('@dipakparmar/docusaurus-plugin-umami').Options} */
-      ({
-        websiteID: "ab9a5196-cb7a-45e2-bb49-1531b197361d", // Required
-        analyticsDomain: "analytics.afidalgo.fr", // Required
-        scriptName: "script.js", // Optional, defaults to script.js
-        dataHostURL: "", // Optional
-        dataAutoTrack: true, // Optional, defaults to true
-        dataDoNotTrack: false, // Optional, defaults to false
-        dataCache: false, // Optional, defaults to false
-        dataDomains: "", // Optional, comma separated list of domains, *Recommended*
-        dataExcludeSearch: false, // Optional, defaults to false
-        dataExcludeHash: false, // Optional, defaults to false
-        dataTag: "", // Optional
-        dataBeforeSend: "beforeSendHandler", // Optional
-      }),
-    ],
-  ],
 };
 
 /* shadesOfPurple */
