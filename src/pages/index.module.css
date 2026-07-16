@@ -257,10 +257,42 @@
 }
 
 .bootStatus {
-  color: var(--soft-periwinkle);
   font-weight: 700;
   font-size: 0.82rem;
   letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.statusOk {
+  color: var(--soft-periwinkle);
+}
+
+.statusRunning {
+  color: var(--periwinkle);
+  animation: statusPulse 1.6s ease-in-out infinite;
+}
+
+.statusStopped {
+  color: color-mix(in srgb, var(--ifm-font-color-base) 45%, transparent);
+}
+
+.statusFailed {
+  color: #e0575f;
+}
+
+@keyframes statusPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statusRunning {
+    animation: none;
+  }
 }
 
 .commitTitle {

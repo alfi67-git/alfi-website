@@ -1,5 +1,6 @@
 import type {ReactNode} from 'react';
 import {useEffect, useRef, useState} from 'react';
+import clsx from 'clsx';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -49,42 +50,77 @@ const EXPERIENCE: ExperienceEntry[] = [
   {
     date: 'juin 2024 — present',
     hash: 'a1b2c3d',
-    title: 'CDI — reseau APA',
+    title: 'reseau APA — CDI',
     detail: 'Description courte de la mission et des responsabilités.',
   },
   {
     date: 'nov. 2024 — oct. 2025',
-    hash: 'a1b2c3d',
-    title: 'Alternance — SDEA',
+    hash: 'e4f5g6h',
+    title: 'SDEA — Alternance',
     detail: 'Description courte de la mission et des responsabilités.',
   },
   {
     date: 'août 2023 — août 2024',
-    hash: 'e4f5a6b',
-    title: 'Alternance — DGFiP',
+    hash: 'i70j8k9l',
+    title: 'DGFiP — Alternance',
     detail: 'Description courte de la mission et des responsabilités.',
   },
   {
     date: 'sept. 2022 — mai 2023',
-    hash: 'e4f5a6b',
-    title: 'Alternance — SOGEFI',
+    hash: 'm1n0o1p',
+    title: 'SOGEFI — Alternance',
     detail: 'Description courte de la mission et des responsabilités.',
   },
 ];
 
-const FORMATION: ExperienceEntry[] = [
+type FormationStatus = 'OK' | 'RUNNING' | 'STOPPED' | 'FAILED';
+
+const STATUS_STYLES: Record<FormationStatus, {label: string; className: string}> = {
+  OK: {label: '[  OK  ]', className: styles.statusOk},
+  RUNNING: {label: '[RUNNING]', className: styles.statusRunning},
+  STOPPED: {label: '[STOPPED]', className: styles.statusStopped},
+  FAILED: {label: '[FAILED]', className: styles.statusFailed},
+};
+
+type FormationEntry = {
+  date: string;
+  title: string;
+  detail: string;
+  status: FormationStatus;
+};
+
+const FORMATION: FormationEntry[] = [
   // TODO: remplace par ton vrai parcours de formation (le plus récent en premier)
+  // status disponibles : 'OK' (validée), 'RUNNING' (en cours), 'STOPPED' (interrompue), 'FAILED' (non obtenue)
   {
-    date: '2020 — 2022',
-    hash: '',
-    title: 'Diplôme — Établissement',
-    detail: 'Intitulé de la formation, spécialisation ou mention.',
+    date: 'sept. 2025 — jan. 2026',
+    title: 'Mastère — IRIS Strasbourg',
+    detail: 'Mastère Expert IT cybersécurité réseau et système. Stoppé pour non alternance trouvée.',
+    status: 'STOPPED',
   },
   {
-    date: '2018 — 2020',
-    hash: 'b3c4d5e',
-    title: 'Diplôme — Établissement',
-    detail: 'Intitulé de la formation, spécialisation ou mention.',
+    date: 'sept. 2024 — août 2025',
+    title: 'Bachelor ASR — CESI Strasbourg',
+    detail: 'Administrateur Système et Réseau.',
+    status: 'OK',
+  },
+  {
+    date: 'sept. 2022 — août 2024',
+    title: 'BTS GMSI — CESI Strasbourg',
+    detail: 'Gestionnaire en Maintenance et Support Informatique.',
+    status: 'OK',
+  },
+  {
+    date: 'sept. 2020 — juil. 2022',
+    title: 'DUT MMI — IUT Haguenau',
+    detail: 'Métier du Multimédia et de l\'Internet.',
+    status: 'FAILED',
+  },
+  {
+    date: 'sept. 2018 — juil. 2020',
+    title: 'BAC STI2D — Lycée Général & Technologique du Haut-Barr',
+    detail: 'Science Technique de l\'Ingénieur & du Développement Durable.',
+    status: 'OK',
   },
 ];
 
@@ -299,12 +335,14 @@ function Formation() {
   return (
     <section className={styles.section} ref={ref}>
       <p className={styles.sectionLabel}>
-        <span className={styles.prompt}>$</span> cat formation.log
+        <span className={styles.prompt}>$</span> systemctl status formation.service
       </p>
       <div className={styles.timeline}>
         {FORMATION.map((entry) => (
           <div key={entry.hash} className={styles.commit}>
-            <span className={styles.bootStatus}>[&nbsp;&nbsp;OK&nbsp;&nbsp;]</span>
+            <span className={clsx(styles.bootStatus, STATUS_STYLES[entry.status].className)}>
+              {STATUS_STYLES[entry.status].label}
+            </span>
             <div className={styles.commitBody}>
               <p className={styles.commitTitle}>{entry.title}</p>
               <p className={styles.commitDate}>{entry.date}</p>
