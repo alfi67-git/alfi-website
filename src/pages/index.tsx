@@ -20,6 +20,8 @@ const ROLES_LOOP = [
   'homelab tinkerer',
   'sysadmin',
   'privacy-first',
+  'fuck chat-control',
+  'fuck Von Der Leyen'
 ];
 
 const ABOUT = [
@@ -49,25 +51,25 @@ const EXPERIENCE: ExperienceEntry[] = [
   // TODO: remplace par ton vrai parcours pro (le plus récent en premier)
   {
     date: 'juin 2024 — present',
-    hash: 'a1b2c3d',
+    hash: 'p1e2t3i',
     title: 'reseau APA — CDI',
     detail: 'Description courte de la mission et des responsabilités.',
   },
   {
     date: 'nov. 2024 — oct. 2025',
-    hash: 'e4f5g6h',
+    hash: 't4e5a6s',
     title: 'SDEA — Alternance',
     detail: 'Description courte de la mission et des responsabilités.',
   },
   {
     date: 'août 2023 — août 2024',
-    hash: 'i70j8k9l',
+    hash: 't7e8a9r',
     title: 'DGFiP — Alternance',
     detail: 'Description courte de la mission et des responsabilités.',
   },
   {
     date: 'sept. 2022 — mai 2023',
-    hash: 'm1n0o1p',
+    hash: 'e1g0g1s',
     title: 'SOGEFI — Alternance',
     detail: 'Description courte de la mission et des responsabilités.',
   },
@@ -257,6 +259,9 @@ function Hero() {
           </Link>
           <Link className={styles.btnGhost} to="#contact">
             ./contact.sh
+          </Link>
+          <Link className={styles.btnGhost} to="./blog">
+            ./blog.sh
           </Link>
         </div>
       </TerminalWindow>
