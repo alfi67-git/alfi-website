@@ -183,6 +183,7 @@
   border-left: 3px solid var(--soft-periwinkle);
   padding: 1.1rem 1.3rem;
   border-radius: 0 6px 6px 0;
+  text-align: justify;
 }
 
 .aboutLine {
@@ -204,6 +205,14 @@
   border: 1px solid color-mix(in srgb, var(--soft-periwinkle) 18%, transparent);
   border-radius: 8px;
   padding: 1rem 1.15rem;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.skillCategory:hover {
+  border-color: var(--soft-periwinkle);
+  transform: translateY(-3px);
+  text-decoration: none;
+  color: inherit;
 }
 
 .skillFolder {
@@ -350,6 +359,7 @@
   font-size: 0.9rem;
   color: color-mix(in srgb, var(--ifm-font-color-base) 85%, transparent);
   line-height: 1.5;
+  text-align: justify;
 }
 
 .projectStack {
