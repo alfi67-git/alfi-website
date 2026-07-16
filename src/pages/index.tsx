@@ -37,7 +37,7 @@ const SKILLS: Record<string, string[]> = {
   'automatisation/': ['bash', 'powershell', 'Ansible'],
   'reseau/': ['Pi-hole (DNS local)', 'OpenVPN', 'NFS / SMB', 'Apache2 / reverse proxy'],
   'securite/': ['hardening', 'audit', 'gestion des accès (UID/GID)'],
-  'outils/': ['Portainer', 'Git', 'GLPI'],
+  'outils/': ['Portainer', 'Git', 'GLPI', 'Zabbix'],
 };
 
 type ExperienceEntry = {
@@ -135,14 +135,15 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    name: 'homelab/pihole',
-    description: 'Résolution DNS locale et blocage publicitaire réseau, domaine .bunker.lan sur Raspberry Pi.',
+    name: 'homelab/promox-clustering',
+    description: 'Cluster de 3 micro pc sur lesquel tourne Proxmox et l\'ensemble des VMs pour mes applications. \
+    Les VMs sont backupés sur mon NAS tous les soirs avec rétention des backups de 5 jours.',
     stack: ['pihole-FTL', 'Apache2', 'DNS'],
   },
   {
     name: 'homelab/nextcloud-aio',
-    description: "Sync fichiers et stockage personnel auto-hébergé, isolé sur son propre réseau Docker.",
-    stack: ['Docker', 'Nextcloud AIO'],
+    description: "Sync fichiers et stockage personnel auto-hébergé sur mon RaspberryPi et connecté à mon NAS où sont stockées toutes mes données.",
+    stack: ['SMB', 'Nextcloud AIO'],
   },
   {
     name: 'homelab/jellyfin',
