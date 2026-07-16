@@ -339,7 +339,7 @@ function Formation() {
       </p>
       <div className={styles.timeline}>
         {FORMATION.map((entry) => (
-          <div key={entry.hash} className={styles.commit}>
+          <div className={styles.commit}>
             <span className={clsx(styles.bootStatus, STATUS_STYLES[entry.status].className)}>
               {STATUS_STYLES[entry.status].label}
             </span>
