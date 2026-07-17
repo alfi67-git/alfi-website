@@ -40,6 +40,11 @@ Créer un group
 groupadd nomgroup
 ```
 
+Ajouter un utilisateur à un groupe
+```bash
+sudo usermod -aG namegroup username
+```
+
 ## Gestion d’archive
 
 Décompresser une archive :
