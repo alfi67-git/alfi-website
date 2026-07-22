@@ -53,25 +53,25 @@ const EXPERIENCE: ExperienceEntry[] = [
     date: 'juin 2024 — present',
     hash: 'p1e2t3i',
     title: 'reseau APA — CDI',
-    detail: 'Description courte de la mission et des responsabilités.',
+    detail: 'Mise en place d\'audit de sécurité + règle de sécurité IT pour les users + procédure users + process d\'accueil des nouveaux users. Migration téléphonie. Mise en place et administration de GLPI.',
   },
   {
     date: 'nov. 2024 — oct. 2025',
     hash: 't4e5a6s',
     title: 'SDEA — Alternance',
-    detail: 'Description courte de la mission et des responsabilités.',
+    detail: 'Migration de serveur Linux + DB + CMS. Scripting powershell. Mise en place de switch. Déploiement commande automatique avec Ansible.',
   },
   {
     date: 'août 2023 — août 2024',
     hash: 't7e8a9r',
     title: 'DGFiP — Alternance',
-    detail: 'Description courte de la mission et des responsabilités.',
+    detail: 'Support N1. Déploiement de poste. Déploiement d'imprimante.',
   },
   {
     date: 'sept. 2022 — mai 2023',
     hash: 'e1g0g1s',
     title: 'SOGEFI — Alternance',
-    detail: 'Description courte de la mission et des responsabilités.',
+    detail: 'Support N1 & N2. Installation de serveur. Création de compte. Création de procédures. Aide au déploiement de Zabbix. Déploiement de pc.',
   },
 ];
 
