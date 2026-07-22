@@ -65,7 +65,7 @@ const EXPERIENCE: ExperienceEntry[] = [
     date: 'août 2023 — août 2024',
     hash: 't7e8a9r',
     title: 'DGFiP — Alternance',
-    detail: 'Support N1. Déploiement de poste. Déploiement d'imprimante.',
+    detail: 'Support N1. Déploiement de poste. Déploiement d\'imprimante.',
   },
   {
     date: 'sept. 2022 — mai 2023',
