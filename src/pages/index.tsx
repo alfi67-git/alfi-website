@@ -50,7 +50,7 @@ type ExperienceEntry = {
 const EXPERIENCE: ExperienceEntry[] = [
   // TODO: remplace par ton vrai parcours pro (le plus récent en premier)
   {
-    date: 'juin 2024 — present',
+    date: 'juin 2026 — present',
     hash: 'p1e2t3i',
     title: 'reseau APA — CDI',
     detail: 'Mise en place d\'audit de sécurité + règle de sécurité IT pour les users + procédure users + process d\'accueil des nouveaux users. Migration téléphonie. Mise en place et administration de GLPI.',
