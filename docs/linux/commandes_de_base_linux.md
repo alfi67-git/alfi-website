@@ -134,7 +134,9 @@ sudo systemctl restart systemd-logind
 python3 -m venv ansible
 ```
 
-## Créer clé SSH
+## SSH
+
+### Créer clé SSH
 `ssh-keygen`
 
 ### Copier la clé publique sur un poste distant
@@ -142,7 +144,7 @@ python3 -m venv ansible
 ssh-copy-id `username`@`remote-host`
 ``` 
 
-## Problème SSH
+### Problème SSH
 
 En cas d’erreur : [SSH returns: no matching host key type found. Their offer: ssh-dss](https://askubuntu.com/questions/836048/ssh-returns-no-matching-host-key-type-found-their-offer-ssh-dss)
 
