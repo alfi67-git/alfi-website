@@ -154,3 +154,8 @@ Host nas
   HostKeyAlgorithms=+ssh-dss
 ```
 
+## Créer un lien
+Flemme de te rendre dans /etc/dossiers/sous-dossiers/sous-sous-dossiers/fichier ? Créer un lien avec la commande suivante :
+```bash
+ln -s /etc/dossiers/sous-dossiers/sous-sous-dossiers/ /home/users/
+```
