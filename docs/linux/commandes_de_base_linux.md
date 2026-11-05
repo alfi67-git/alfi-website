@@ -91,7 +91,8 @@ Editer les crontab
 crontab -e
 ```
 
-## Firewall (nft)
+## Réseau
+### Firewall (nft)
 
 Vérifier les règles de firewall
 ```bash
@@ -107,6 +108,20 @@ Ajouter règles de firewall
 ```bash
 nft add rule ip filter INPUT position 14 ip saddr 10.252.0.0/16 udp dport 22 counter packets 0 bytes 0 accept
 ```
+
+### Définir une ip statique sur Debian
+tout se fait dans le fichier `/etc/network/interfaces`
+
+Exemple de configuration
+```bash
+allow-hotplug ens192
+iface ens192 inet static
+  address 192.168.100.14/24
+  gateway 192.168.100.1
+  dns-nameservers 192.168.100.11 1.1.1.1
+  dns-domain it-connect.local
+```
+
 
 ## Désactiver la veille du pc à la fermeture de l’écran
 
