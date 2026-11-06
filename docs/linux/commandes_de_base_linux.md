@@ -122,6 +122,10 @@ iface ens192 inet static
   dns-domain it-connect.local
 ```
 
+puis :
+```bash
+sudo systemctl restart networking.service` pour relancer le service.
+```
 
 ## Désactiver la veille du pc à la fermeture de l’écran
 
