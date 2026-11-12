@@ -114,18 +114,20 @@ tout se fait dans le fichier `/etc/network/interfaces`
 
 Exemple de configuration
 ```bash
-allow-hotplug ens192
-iface ens192 inet static
-  address 192.168.100.14/24
-  gateway 192.168.100.1
-  dns-nameservers 192.168.100.11 1.1.1.1
-  dns-domain it-connect.local
+allow-hotplug ens18
+iface ens18 inet static
+        address 192.168.1.34/24
+        gateway 192.168.1.1
+        dns-nameservers 192.168.1.6 9.9.9.9 1.1.1.1
+        dns-domain truc.fr
+
 ```
 
 puis :
 ```bash
-sudo systemctl restart networking.service` pour relancer le service.
+sudo systemctl restart networking.service ; sudo ifdown ens18 && sudo ifup ens18 
 ```
+pour relancer le service, éteindre et rallumer la carte
 
 ## Désactiver la veille du pc à la fermeture de l’écran
 
