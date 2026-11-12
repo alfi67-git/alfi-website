@@ -41,11 +41,11 @@ Pour un serveur Debian, la répartition de l’espace disque dépend de l’usag
 
 Une fois à l'étape du partitionnement des disques, sélectionner *Assisté - utiliser tout un disque avec LVM*  > selection du disque > /home /var /tmp séparé > Configurer le gestionnaire de volumes logiques (LVM) > Supprimer l'ensemble des volumes logiques puis enfin créer des nouveau ensemble logique avec leur nome respectif en spécifiant leur espace sur le disque
 
-/home : 1G
-/swap : 2G
-/tmp : 2G
-/var : 5G
-/ : tout le reste
+- /home : 1G
+- /swap : 2G
+- /tmp : 2G
+- /var : 5G
+- / : tout le reste
 
 Valider puis sélectionner chaque groupe et leur affecteur la partition
 
