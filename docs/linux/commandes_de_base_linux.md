@@ -110,7 +110,7 @@ nft add rule ip filter INPUT position 14 ip saddr 10.252.0.0/16 udp dport 22 cou
 ```
 
 ### Définir une ip statique sur Debian
-tout se fait dans le fichier `/etc/network/interfaces`
+tout se fait dans le fichier `/etc/network/interfaces`. Mais avant il faut installer le package `resolvconf`, sans ça rien ne s'écris dans le ficher `/etc/resolv.conf`.
 
 Exemple de configuration
 ```bash
@@ -119,7 +119,7 @@ iface ens18 inet static
         address 192.168.1.34/24
         gateway 192.168.1.1
         dns-nameservers 192.168.1.6 9.9.9.9 1.1.1.1
-        dns-domain truc.fr
+        dns-search truc.fr
 
 ```
 
